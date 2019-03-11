@@ -26,6 +26,9 @@ use testapi qw(get_var set_var);
 use main_common 'loadtest';
 use YAML::Tiny;
 
+# use lib '/usr/share/openqa/lib';
+# use OpenQA::Utils qw(asset_type_from_setting locate_asset);
+
 our @EXPORT = qw(load_yaml_schedule);
 
 sub parse_vars {
@@ -33,6 +36,8 @@ sub parse_vars {
     my %vars;
     while (my ($var, $value) = each %{$schedule->{vars}}) {
         $value =~ s/%(.*?)%/get_var($1)/eg;
+        # my $type = asset_type_from_setting($var, $value);
+        # $value = locate_asset($type, $value) if $type;
         $vars{$var} = $value;
     }
     return %vars;
