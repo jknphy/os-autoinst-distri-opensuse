@@ -26,7 +26,7 @@ sub run {
     while ($iterations++ < 3) {
         # the timeout is insane - but some old DVDs took almost forever, could
         # recheck with all current one and lower again
-        assert_screen [qw(mediacheck-select-device mediacheck-ok mediacheck-checksum-wrong)], 3600;
+        assert_screen [qw(mediacheck-select-device mediacheck-ok mediacheck-checksum-wrong)], 120;
         send_key "ret";
         if (match_has_tag('mediacheck-select-device')) {
             next;
