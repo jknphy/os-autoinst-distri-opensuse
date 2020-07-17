@@ -19,36 +19,22 @@
 use strict;
 use warnings;
 use base "opensusebasetest";
+use utils;
 use testapi;
-use autoyast qw(
-  detect_profile_directory
-  expand_template
-  expand_version
-  adjust_network_conf
-  expand_variables
-  upload_profile);
 
 sub run {
-    my $path = get_required_var('AUTOYAST');
-    # Get file from data directory
-    my $profile = get_test_data($path);
+    # print qx{id};
+    # print qx{cat /etc/os-release};
+    # print qx{ruby --version};    
+    # print qx{git clone https://github.com/jknphy/libyui_client.git};
+    # print qx{sudo zypper --non-interactive in ruby2.5-rubygem-bundler};
+    
+    # print qx{echo "\$HOME"};
+    # print qx{echo "\$PWD"};
 
-    $path    = detect_profile_directory(profile => $profile, path => $path);
-    $profile = get_test_data($path);
-    die "Empty profile" unless $profile;
-
-    # if profile is a template, expand and rename
-    $profile = expand_template($profile) if $path =~ s/^(.*\.xml)\.ep$/$1/;
-    die $profile if $profile->isa('Mojo::Exception');
-
-    $profile = expand_version($profile);
-    $profile = adjust_network_conf($profile);
-    $profile = expand_variables($profile);
-    upload_profile(profile => $profile, path => $path);
-}
-
-sub test_flags {
-    return {fatal => 1};
+    # print qx{HOME=\$PWD bundle install --path \$PWD/libyui_client/.vendor/bundler --gemfile \$PWD/libyui_client/Gemfile};
+    # print qx{ls -lah \$PWD/libyui_client};
+    # print qx{cd libyui_client ; HOME=\$PWD bundle exec rspec};
 }
 
 1;
