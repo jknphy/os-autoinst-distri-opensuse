@@ -41,7 +41,8 @@ sub run {
     print qx{ping -I br1 -c 4 $ip};
     print qx{id};
     print qx{cat /etc/os-release};
-    print qx{ruby --version};    
+    print qx{ruby --version};
+    print qx{sudo lsof -i -P -n | grep LISTEN};
     print qx{git clone -b poc_ruby_integration --single-branch https://github.com/jknphy/libyui_client.git};
     print qx{sudo zypper --non-interactive in ruby2.5-rubygem-bundler};
     
