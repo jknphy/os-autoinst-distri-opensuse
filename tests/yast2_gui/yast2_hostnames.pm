@@ -37,8 +37,8 @@ sub run {
     # sleep;
 
 
-    print qx{ip a};
-    print qx{ping -I br1 -c 4 $ip};
+    # print qx{ip a};
+    # print qx{ping -I br1 -c 4 $ip};
     # print qx{id};
     # print qx{cat /etc/os-release};
     # print qx{ruby --version};    
