@@ -44,6 +44,7 @@ sub run {
             select_console 'sol', await_console => 0;
         }
     }
+    assert_screen 'pxe-menu', 600;
     assert_screen([qw(virttest-pxe-menu qa-net-selection prague-pxe-menu pxe-menu)], 600);
 
     # boot bare-metal/IPMI machine
