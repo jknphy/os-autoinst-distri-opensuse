@@ -376,7 +376,7 @@ sub setup_samba {
     setup_samba_ldap_expert;
 
     send_key $cmd{ok};
-    wait_serial("$module_name-0", 60) || die "'yast2 samba-server' didn't finish";
+    wait_serial("$module_name-0", 90) || die "'yast2 samba-server' didn't finish";
 }
 
 sub run {
