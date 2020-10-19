@@ -30,7 +30,6 @@ sub run {
     _check_lvm_partitioning($config);
     _check_raid1_partitioning($config, $expected_num_devs);
     _remove_raid_disk($config, $expected_num_devs);
-    sleep;
     _reboot();
     $self->wait_boot;
     _check_raid_disks_after_reboot($config, $expected_num_devs);
