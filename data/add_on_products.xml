@@ -4,7 +4,7 @@
   <product_items config:type="list">
     <product_item>
       <name>SUSE Linux Enterprise Development Tools Module</name>
-      <url><![CDATA[ftp://openqa.suse.de/{{REPO_SLE_MODULE_DEVELOPMENT_TOOLS}}]]></url>
+      <url><![CDATA[ftp://openqa.suse.de/{{REPO_SLE_MODULE_DEVELOPMENT_TOOLS}}/]]></url>
       <priority config:type="integer">50</priority>
       <ask_user config:type="boolean">true</ask_user>
       <selected config:type="boolean">true</selected>
