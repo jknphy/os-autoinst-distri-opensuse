@@ -20,7 +20,7 @@ use parent 'Installation::WizardPage';
 
 use constant {
     EXPERT_PARTITIONER_PAGE            => 'expert-partitioner',
-    SELECTED_ALL_DEVICES               => 'all-devices'
+    SELECTED_ALL_DEVICES               => 'all-devices',
     SELECTED_HARD_DISK                 => 'partitioning_raid-disk_%s-selected',
     SELECTED_RAID                      => 'partitioning_raid-raid-selected',
     SELECTED_CURRENT_VOLUME_MANAGEMENT => 'volume-management_system',                 # current proposal
@@ -73,7 +73,7 @@ Default for C<$item> is to match a hard disk with tag partitioning_raid-disk_%s-
 will interpolated by the test_data variable of C<existing_partition>.
 =cut
 
-sub select_treeview_item {
+sub select_tree_view_item {
     my ($self, $item) = @_;
     assert_screen(EXPERT_PARTITIONER_PAGE);
     _focus_on_selected_all_devices();
