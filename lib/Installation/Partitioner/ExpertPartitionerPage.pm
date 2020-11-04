@@ -20,6 +20,7 @@ use parent 'Installation::WizardPage';
 
 use constant {
     EXPERT_PARTITIONER_PAGE            => 'expert-partitioner',
+    SELECTED_ALL_DEVICES               => 'all-devices'
     SELECTED_HARD_DISK                 => 'partitioning_raid-disk_%s-selected',
     SELECTED_RAID                      => 'partitioning_raid-raid-selected',
     SELECTED_CURRENT_VOLUME_MANAGEMENT => 'volume-management_system',                 # current proposal
@@ -58,8 +59,8 @@ sub new {
     }, $class;
 }
 
-sub _select_system_view_section {
-    send_key('alt-s');
+sub _focus_on_selected_all_devices {
+    assert_and_click(SELECTED_ALL_DEVICES);
 }
 
 =head2 select_item_in_system_view_table
@@ -72,10 +73,10 @@ Default for C<$item> is to match a hard disk with tag partitioning_raid-disk_%s-
 will interpolated by the test_data variable of C<existing_partition>.
 =cut
 
-sub select_item_in_system_view_table {
+sub select_treeview_item {
     my ($self, $item) = @_;
     assert_screen(EXPERT_PARTITIONER_PAGE);
-    _select_system_view_section();
+    _focus_on_selected_all_devices();
  # TODO: Replace if-else by renaming needle tags using single naming pattern (like for hard disks selection). The conditions were added as a temporary solution.
     if ($item eq 'raid') {
         send_key_until_needlematch(SELECTED_RAID, 'down');
