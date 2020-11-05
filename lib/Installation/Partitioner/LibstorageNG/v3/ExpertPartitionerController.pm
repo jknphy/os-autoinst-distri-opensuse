@@ -34,7 +34,7 @@ sub new {
     my ($class, $args) = @_;
     my $self = bless {
         SuggestedPartitioningPage => Installation::Partitioner::LibstorageNG::SuggestedPartitioningPage->new(),
-        ExpertPartitionerPage => Installation::Partitioner::LibstorageNG::ExpertPartitionerPage->new({add_partition_shortcut => 'alt-p', add_raid_shortcut => 'alt-r'}),
+        ExpertPartitionerPage => Installation::Partitioner::LibstorageNG::ExpertPartitionerPage->new({add_partition_shortcut => 'alt-d', add_raid_shortcut => 'alt-r'}),
         NewPartitionSizePage => Installation::Partitioner::NewPartitionSizePage->new({custom_size_shortcut => 'alt-o'}),
         RolePage             => Installation::Partitioner::RolePage->new({raw_volume_shortcut => 'alt-r'}),
         FormattingOptionsPage => Installation::Partitioner::LibstorageNG::FormattingOptionsPage->new({do_not_format_shortcut => 'alt-t', format_shortcut => 'alt-r', filesystem_shortcut => 'alt-f', do_not_mount_shortcut => 'alt-d'}),
@@ -67,8 +67,8 @@ sub run_expert_partitioner {
 
 sub add_partition_on_gpt_disk {
     my ($self, $args) = @_;
-    $self->get_expert_partitioner_page()->select_tree_view_item($args->{disk});
-    # $self->get_expert_partitioner_page()->select_partitions_tab();
+    $self->get_expert_partitioner_page()->select_item_in_system_view_table($args->{disk});
+    $self->get_expert_partitioner_page()->select_partitions_tab();
     $self->get_expert_partitioner_page()->press_add_partition_button();
     $self->_add_partition($args->{partition});
 }

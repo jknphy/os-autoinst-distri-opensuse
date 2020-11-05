@@ -20,7 +20,8 @@ use parent 'Installation::WizardPage';
 
 use constant {
     EXPERT_PARTITIONER_PAGE            => 'expert-partitioner',
-    SELECTED_ALL_DEVICES               => 'all-devices',
+    SELECTED_ALL_DEVICES               => 'selected-all-devices',
+    UNSELECTED_ALL_DEVICES             => 'unselected-all-devices',
     SELECTED_HARD_DISK                 => 'partitioning_raid-disk_%s-selected',
     SELECTED_RAID                      => 'partitioning_raid-raid-selected',
     SELECTED_CURRENT_VOLUME_MANAGEMENT => 'volume-management_system',                 # current proposal
@@ -59,24 +60,17 @@ sub new {
     }, $class;
 }
 
-sub _focus_on_selected_all_devices {
-    assert_and_click(SELECTED_ALL_DEVICES);
+sub _select_system_view_section {
+    send_key('alt-s');
 }
 
-=head2 select_item_in_system_view_table
+sub _focus_on_selected_all_devices {
+    assert_and_click([SELECTED_ALL_DEVICES, UNSELECTED_ALL_DEVICES]);
+}
 
-  select_item_in_system_view_table($item);
+sub _select_option_in_treeview {
+    my $item = shift;
 
-Selects one of the features of System View in the Expert Partitioner with any of the 
-available options. Each option should find a constant variable representing a needle tag to match.
-Default for C<$item> is to match a hard disk with tag partitioning_raid-disk_%s-selected where this
-will interpolated by the test_data variable of C<existing_partition>.
-=cut
-
-sub select_tree_view_item {
-    my ($self, $item) = @_;
-    assert_screen(EXPERT_PARTITIONER_PAGE);
-    _focus_on_selected_all_devices();
  # TODO: Replace if-else by renaming needle tags using single naming pattern (like for hard disks selection). The conditions were added as a temporary solution.
     if ($item eq 'raid') {
         send_key_until_needlematch(SELECTED_RAID, 'down');
@@ -93,6 +87,40 @@ sub select_tree_view_item {
     else {
         send_key_until_needlematch((sprintf SELECTED_HARD_DISK, $item), "down");
     }
+}
+
+=head2 select_item_in_system_view_table
+
+  select_item_in_system_view_table($item);
+
+Selects one of the features of System View in the Expert Partitioner with any of the 
+available options. Each option should find a constant variable representing a needle tag to match.
+Default for C<$item> is to match a hard disk with tag partitioning_raid-disk_%s-selected where this
+will interpolated by the test_data variable of C<existing_partition>.
+=cut
+
+sub select_item_in_system_view_table {
+    my ($self, $item) = @_;
+    assert_screen(EXPERT_PARTITIONER_PAGE);
+    _select_system_view_section();
+    _select_option_in_treeview($item);
+}
+
+=head2 select_tree_view_item
+
+  select_tree_view_item($item);
+
+Selects one of the items of the tree view in the Expert Partitioner with any of the 
+available options. Each option should find a constant variable representing a needle tag to match.
+Default for C<$item> is to match a hard disk with tag partitioning_raid-disk_%s-selected where this
+will interpolated by the test_data variable of C<existing_partition>.
+=cut
+
+sub select_tree_view_item {
+    my ($self, $item) = @_;
+    assert_screen(EXPERT_PARTITIONER_PAGE);
+    _focus_on_selected_all_devices();
+    _select_option_in_treeview($item);
 }
 
 sub expand_item_in_system_view_table {

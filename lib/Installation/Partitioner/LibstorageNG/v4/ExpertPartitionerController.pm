@@ -33,7 +33,7 @@ sub new {
     my $self = bless {
         SuggestedPartitioningPage => Installation::Partitioner::LibstorageNG::SuggestedPartitioningPage->new(),
         ExpertPartitionerPage     => Installation::Partitioner::LibstorageNG::ExpertPartitionerPage->new({
-                add_partition_shortcut     => 'alt-r',
+                add_partition_shortcut     => 'alt-p',
                 resize_partition_shortcut  => 'alt-r',
                 edit_partition_shortcut    => 'alt-e',
                 add_raid_shortcut          => 'alt-d',
@@ -79,6 +79,13 @@ sub new {
                 verify_password_shortcut => 'alt-v'
         })
     }, $class;
+}
+
+sub add_partition_on_gpt_disk {
+    my ($self, $args) = @_;
+    $self->get_expert_partitioner_page()->select_tree_view_item($args->{disk});
+    $self->get_expert_partitioner_page()->press_add_partition_button();
+    $self->_add_partition($args->{partition});
 }
 
 sub get_edit_formatting_options_page {
