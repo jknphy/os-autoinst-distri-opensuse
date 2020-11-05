@@ -126,7 +126,7 @@ sub press_add_raid_button {
 
 sub press_add_partition_button {
     my ($self) = @_;
-    assert_screen(PARTITIONS_TAB);
+    # assert_screen(PARTITIONS_TAB);
     send_key($self->{add_partition_shortcut});
 }
 
