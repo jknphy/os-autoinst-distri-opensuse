@@ -327,7 +327,8 @@ sub get_bootmenu_console_params {
 
     # See bsc#1011815, last console set as boot parameter is linked to /dev/console
     # and doesn't work if set to serial device. Don't want this on some backends.
-    push @params, "console=tty" unless (get_var('BACKEND', '') =~ /ipmi|spvm|pvm_hmc/);
+    # push @params, "console=tty" unless (get_var('BACKEND', '') =~ /ipmi|spvm|pvm_hmc/);
+    push @params, "systemd.log_level=debug systemd.log_target=kmsg log_buf_len=1M printk.devkmsg=on enforcing=0";
     return @params;
 }
 

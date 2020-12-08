@@ -6,12 +6,12 @@ description: >
 vars:
   RAIDLEVEL: 1
   LVM: 1
-  YUI_REST_API: 1
+  # YUI_REST_API: 1
 test_data:
   <<: !include test_data/yast/lvm_raid1/lvm+raid1_hyperv.yaml
 schedule:
   - installation/bootloader_start
-  - installation/setup_libyui
+  # - installation/setup_libyui
   - installation/welcome
   - installation/accept_license
   - installation/scc_registration
