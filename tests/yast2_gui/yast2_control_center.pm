@@ -201,6 +201,9 @@ sub start_partitioner {
     assert_screen 'yast2_control-center-partitioner_expert', timeout => 60;
     send_key 'alt-f';
 
+    assert_screen 'yast2_control-center-partitioner-summary';
+    send_key 'alt-n';
+
     assert_screen 'yast2-control-center-ui', timeout => 60;
 }
 
@@ -328,33 +331,33 @@ sub run {
     }
     $self->launch_yast2_module_x11('', target_match => 'yast2-control-center-ui', match_timeout => 180);
 
-    start_addon_products;
-    start_media_check;
-    start_online_update;
-    start_software_repositories;
-    start_printer;
-    start_sound;
+    # start_addon_products;
+    # start_media_check;
+    # start_online_update;
+    # start_software_repositories;
+    # start_printer;
+    # start_sound;
     start_sysconfig_editor;
     start_partitioner;
     start_vpn_gateway;
-    start_security_center;
-    start_sudo;
-    start_user_and_group_management;
+    # start_security_center;
+    # start_sudo;
+    # start_user_and_group_management;
 
     if (is_sle) {
-        start_hypervisor;
-        start_add_system_extensions_or_modules;
-        start_kernel_dump;
+        # start_hypervisor;
+        # start_add_system_extensions_or_modules;
+        # start_kernel_dump;
         # YaST2 CA management has been dropped from SLE15, see
         # https://bugzilla.suse.com/show_bug.cgi?id=1059569#c14
         if (is_sle('15+')) {
-            start_directory_server;
+            # start_directory_server;
         }
         else {
             start_common_server_certificate;
             start_ca_management;
         }
-        start_wake_on_lan;
+        # start_wake_on_lan;
     }
     if (is_opensuse) {
         start_kernel_settings;
