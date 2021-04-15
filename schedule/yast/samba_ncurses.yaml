@@ -4,5 +4,5 @@ description:    >
 schedule:
   - boot/boot_to_desktop
   - console/prepare_test_data
-  - console/consoletest_setup
+  # - console/consoletest_setup
   - console/yast2_samba

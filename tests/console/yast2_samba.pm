@@ -98,7 +98,7 @@ sub setup_yast2_ldap_server {
     wait_screen_change { send_key "alt-c" };
     die "'yast2 ldap-server' didn't finish with zero exit code" unless wait_serial("$module_name-0");
     assert_script_run('certutil -d /etc/dirsrv/slapd-openqatest --rename -n "openqa.ldaptest.org - Suse" --new-n Server-Cert');
-    systemctl 'start dirsrv@' . $ldap_directives{dir_instance};
+    systemctl 'restart dirsrv@' . $ldap_directives{dir_instance};
     systemctl 'status dirsrv@' . $ldap_directives{dir_instance};
 }
 
@@ -339,6 +339,7 @@ sub setup_samba_ldap_expert {
         replication    => {shortcut => 'alt-p', value => "990\n"},
         timeout        => {shortcut => 'alt-t', value => "7\n"},
         use_ssl_or_tls => {shortcut => 'alt-u'},
+        sync_passwords => {shortcut => 'alt-s'},
         test           => {shortcut => 'alt-t'}
     );
 
@@ -357,6 +358,13 @@ sub setup_samba_ldap_expert {
     send_key 'up';
     assert_screen 'yast2_samba-server_ldap_advanced_expert_settings_not-use-ssl';
     send_key 'ret';
+
+    # change to not synchronize passwords
+    wait_screen_change { send_key $actions{sync_passwords}{shortcut} };
+    send_key 'down';
+    assert_screen 'yast2_samba-server_ldap_advanced_expert_settings_sync_passwds_no';
+    send_key 'ret';
+
     wait_screen_change { send_key $cmd{ok} };
 
     # now run test connection
@@ -377,7 +385,26 @@ sub setup_samba {
     setup_samba_ldap_expert;
 
     send_key $cmd{ok};
-    wait_serial("$module_name-0", 60) || die "'yast2 samba-server' didn't finish";
+    unless (wait_serial("$module_name-0", 30)) {
+        record_soft_failure 'bsc#88966 - yast2 samba does not return 0 code when closing';
+        systemctl('status smb nmb', ignore_failure => 1);
+        systemctl 'restart smb';
+        systemctl 'restart nmb';
+        systemctl 'status smb nmb';
+    }
+
+    my $ldapsearch = "ldapsearch -x -b \"$ldap_directives{dir_suffix}\" -H ldap://localhost " .
+      "-D \"$ldap_directives{dir_manager_dn}\" \"objectclass=account\" -w $ldap_directives{dir_manager_passwd}";
+
+    # check account root not added to ldap yet
+    assert_script_run($ldapsearch);
+    die "samba account for root already added" unless (script_run("$ldapsearch | grep samba"));
+    assert_script_run('(echo secret; echo secret) | smbpasswd -D3 -a');
+    # check account root added to ldap
+    assert_script_run($ldapsearch);
+    die "samba account should have been added" if (script_run("$ldapsearch | grep samba"));
+    # connect to share
+    assert_script_run('echo q | smbclient //localhost/html_public -w secret -q');
 }
 
 sub run {
