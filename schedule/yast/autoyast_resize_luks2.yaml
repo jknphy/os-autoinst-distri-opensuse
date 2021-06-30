@@ -5,7 +5,7 @@ description: >
 vars:
   AUTOYAST: autoyast_sle15/autoyast_resize_luks2.xml
   DESKTOP: textmode
-  QEMURAM: 2048
+  QEMURAM: 4096
   NUMDISKS: 2
   EXTRABOOTPARAMS: startshell=1
 schedule:
