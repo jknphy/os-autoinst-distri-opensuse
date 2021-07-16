@@ -37,6 +37,7 @@ sub is_shown {
 
 sub switch_keyboard_layout {
     my ($self, $keyboard_layout) = @_;
+    sleep 10;
     $self->{cb_keyboard_layout}->select($keyboard_layout);
 }
 
