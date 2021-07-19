@@ -26,25 +26,41 @@ use autoyast qw(
   expand_version
   adjust_network_conf
   expand_variables
-  upload_profile);
+  upload_profile
+  get_test_data_files);
 
 sub run {
-    my $path = get_required_var('AUTOYAST');
-    # Get file from data directory
-    my $profile = get_test_data($path);
+    my $files;
+    my $ay_path = get_required_var('AUTOYAST');
 
-    $path    = detect_profile_directory(profile => $profile, path => $path);
-    $profile = get_test_data($path);
-    die "Empty profile" unless $profile;
+    if ($ay_path =~ /\/$/) {
+        # When using rules and classes, multiple xml files will be processed
+        $files = get_test_data_files($ay_path);
+    }
+    else {
+        # When only one file is provided, get file from data directory
+        # and guess path if needed
+        my $profile = get_test_data($ay_path);
+        $ay_path = detect_profile_directory(profile => $profile, path => $ay_path);
+        push @{$files}, $ay_path;
+    }
 
-    # if profile is a template, expand and rename
-    $profile = expand_template($profile) if $path =~ s/^(.*\.xml)\.ep$/$1/;
-    die $profile                         if $profile->isa('Mojo::Exception');
+    for my $path (@{$files}) {
+        my $profile = get_test_data($path);
+        die "Empty profile" unless $profile;
 
-    $profile = expand_version($profile);
-    $profile = adjust_network_conf($profile);
-    $profile = expand_variables($profile);
-    upload_profile(profile => $profile, path => $path);
+        # if profile is a template, expand and rename
+        $profile = expand_template($profile) if $path =~ s/^(.*\.xml)\.ep$/$1/;
+        die $profile                         if $profile->isa('Mojo::Exception');
+
+        $profile = expand_version($profile);
+        $profile = adjust_network_conf($profile);
+        $profile = expand_variables($profile);
+        upload_profile(profile => $profile, path => $path);
+    }
+
+    # set AutoYaST path as URL
+    set_var('AUTOYAST', autoinst_url . "/files/$ay_path");
 }
 
 sub test_flags {
