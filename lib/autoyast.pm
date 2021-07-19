@@ -26,6 +26,7 @@ use testapi;
 use version_utils 'is_sle';
 use registration qw(scc_version get_addon_fullname);
 use File::Copy 'copy';
+use File::Find qw(finddepth);
 use File::Path 'make_path';
 use LWP::Simple 'head';
 
@@ -42,6 +43,7 @@ our @EXPORT = qw(
   init_autoyast_profile
   test_ayp_url
   validate_autoyast_profile
+  get_test_data_files
 );
 
 =head2 expand_patterns
@@ -668,12 +670,12 @@ sub expand_variables {
  upload_profile(profile => $profile, path => $path)
 
  Upload modified profile
- Update url
  Update path
  Make available profile in job logs
 
- $profile is the AutoYaST profile 'autoinst.xml'.
- $path is AutoYaST profile path
+ $profile is the AutoYaST profile 'autoinst.xml'
+ $path is the path of the AutoYaST profile or one of the xml files when
+ using rules and classes.
 
 =cut
 sub upload_profile {
@@ -687,10 +689,10 @@ sub upload_profile {
     save_tmp_file($path, $profile);
     # Copy profile to ulogs directory, so profile is available in job logs
     make_path('ulogs');
-    copy(hashed_string($path), 'ulogs/autoyast_profile.xml');
-    # Set AUTOYAST variable with new url
-    my $url = autoinst_url . "/files/$path";
-    set_var('AUTOYAST', $url);
+    my $file_path = $path;
+    $path =~ s/^.*?\///;
+    $path =~ s/\//-/g;
+    copy(hashed_string($file_path), 'ulogs/' . $path);
 }
 
 =head2 inject_registration
@@ -738,6 +740,37 @@ sub test_ayp_url {
             record_info("Failure", "Autoyast profile url $ayp_url is unreachable from the worker");
         }
     }
+}
+
+# get relative path to all test data files in a directory
+=head2 get_test_data_files
+  get_test_data($dir_relative_path)
+
+Returns list of all relative xml file paths for a relative directory path.
+
+Example:
+  get_test_data_files('autoyast_sle15/rule-based_example/')
+This could return a reference to an array with content:
+  'autoyast_sle15/rule-based_example/profile_a.xml',
+  'autoyast_sle15/rule-based_example/profile_b.xml',
+  'autoyast_sle15/rule-based_example/rules/rules.xml',
+  'autoyast_sle15/rule-based_example/classes/swap/smallswap.xml',
+  'autoyast_sle15/rule-based_example/classes/swap/bigswap.xml',
+  'autoyast_sle15/rule-based_example/classes/general/software.xml',
+  'autoyast_sle15/rule-based_example/classes/general/registration.xml',
+  'autoyast_sle15/rule-based_example/classes/general/users.xml'
+
+=cut
+sub get_test_data_files {
+    my ($path) = @_;
+    my $casedir_data = get_var('CASEDIR') . '/data/';
+    my @files;
+    finddepth(sub {
+            return if ($_ !~ /\.xml$/);
+            $File::Find::name =~ s/^$casedir_data//;
+            push @files, $File::Find::name;
+    }, $casedir_data . $path);
+    return \@files;
 }
 
 1;
