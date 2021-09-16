@@ -88,7 +88,10 @@ sub process_reboot {
         assert_screen 'linux-login', 200;
 
         # Login & clear login needle
-        select_console 'root-console';
+        sleep unless $args{expected_grub};
+        (is_pvm) ?
+            select_console 'root-console', timeout => 60 :
+            select_console 'root-console';
         assert_script_run 'clear';
     }
 }
