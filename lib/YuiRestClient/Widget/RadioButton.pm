@@ -5,24 +5,25 @@ package YuiRestClient::Widget::RadioButton;
 use strict;
 use warnings;
 
-use parent 'YuiRestClient::Widget::Base';
+use parent 'YuiRestClient::Widget::Attribute::Attribute';
 use YuiRestClient::Action;
+use YuiRestClient::Widget::Attribute::Enable;
+
+sub init {
+    my ($self, $args) = @_;
+    $self->SUPER::init($args);
+    $self->{enable_delegate} = YuiRestClient::Widget::Attribute::Enable->new();
+    return $self;
+}
 
 sub select {
     my ($self) = @_;
-
     return $self->action(action => YuiRestClient::Action::YUI_SELECT);
 }
 
 sub is_selected {
     my ($self) = @_;
     $self->property('value');
-}
-
-sub is_enabled {
-    my ($self) = @_;
-    my $is_enabled = $self->property('enabled');
-    return !defined $is_enabled || $is_enabled;
 }
 
 1;

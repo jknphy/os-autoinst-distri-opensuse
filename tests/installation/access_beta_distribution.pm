@@ -9,7 +9,8 @@ use strict;
 use warnings;
 
 sub run {
-    $testapi::distri->get_ok_popup_controller()->accept();
+    # $testapi::distri->get_ok_popup_controller()->accept();
+    my $actual_beta_text = $testapi::distri->get_ok_popup_controller()->get_text();
 }
 
 1;

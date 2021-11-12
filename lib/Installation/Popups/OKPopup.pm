@@ -33,7 +33,8 @@ sub is_shown {
 
 sub text {
     my ($self) = @_;
-    return $self->{rt_warning}->text();
+    $self->{btn_ok}->is_selected();
+    # return $self->{rt_warning}->text();
 }
 
 sub press_ok {

@@ -7,11 +7,15 @@ use warnings;
 
 sub new {
     my ($class, $args) = @_;
+    my $self = bless {}, $class;
+    return $self->init($args);
+}
 
-    return bless {
-        widget_controller => $args->{widget_controller},
-        filter => $args->{filter}
-    }, $class;
+sub init {
+    my ($self, $args) = @_;
+    $self->{widget_controller} = $args->{widget_controller};
+    $self->{filter} = $args->{filter};
+    return $self;
 }
 
 sub action {

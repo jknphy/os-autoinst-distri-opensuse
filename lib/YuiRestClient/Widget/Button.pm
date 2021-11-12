@@ -5,19 +5,21 @@ package YuiRestClient::Widget::Button;
 use strict;
 use warnings;
 
-use parent 'YuiRestClient::Widget::Base';
+use parent 'YuiRestClient::Widget::Attribute::Attribute';
 use YuiRestClient::Action;
+use YuiRestClient::Widget::Attribute::Enable;
+
+sub init {
+    my ($self, $args) = @_;
+    $self->SUPER::init($args);
+    $self->{enable_delegate} = YuiRestClient::Widget::Attribute::Enable->new();
+    return $self;
+}
 
 sub click {
     my ($self) = @_;
 
     return $self->action(action => YuiRestClient::Action::YUI_PRESS);
-}
-
-sub is_enabled {
-    my ($self) = @_;
-    my $is_enabled = $self->property('enabled');
-    return !defined $is_enabled || $is_enabled;
 }
 
 1;
