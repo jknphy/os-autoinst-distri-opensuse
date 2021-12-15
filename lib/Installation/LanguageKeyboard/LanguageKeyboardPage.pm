@@ -40,6 +40,7 @@ sub enter_keyboard_test {
     my ($self, $test) = @_;
     # text for test layout cannot be set correctly via rest api, so focus
     # is moved to the control with libyui and typing is done with testapi
+    sleep 10;
     $self->{tb_keyboard_test}->set('');
     type_string $test;
 }
