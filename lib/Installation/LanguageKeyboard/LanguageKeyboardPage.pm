@@ -31,6 +31,11 @@ sub is_shown {
     return $self->{cb_keyboard_layout}->exist();
 }
 
+sub get_keyboard_layout {
+    my ($self) = @_;
+    $self->{cb_keyboard_layout}->value();
+}
+
 sub switch_keyboard_layout {
     my ($self, $keyboard_layout) = @_;
     $self->{cb_keyboard_layout}->select($keyboard_layout);
@@ -40,7 +45,6 @@ sub enter_keyboard_test {
     my ($self, $test) = @_;
     # text for test layout cannot be set correctly via rest api, so focus
     # is moved to the control with libyui and typing is done with testapi
-    sleep 10;
     $self->{tb_keyboard_test}->set('');
     type_string $test;
 }

@@ -11,6 +11,8 @@ use Test::Assert ':all';
 
 sub run {
     my $language_keyboard = $testapi::distri->get_language_keyboard();
+    my $keyboard = $language_keyboard->get_keyboard_layout();
+    assert_equals($keyboard, 'English (US)', 'Pre-selected keyboard unexpected');
     $language_keyboard->switch_keyboard_layout('French');
     $language_keyboard->enter_keyboard_test('azerty');
     my $keyboard_test = $language_keyboard->get_keyboard_test();

@@ -30,6 +30,11 @@ sub get_language_keyboard_page {
     return $self->{LanguageKeyboardPage};
 }
 
+sub get_keyboard_layout {
+    my ($self) = @_;
+    $self->get_language_keyboard_page()->get_keyboard_layout();
+}
+
 sub switch_keyboard_layout {
     my ($self, $keyboard_layout) = @_;
     $self->get_language_keyboard_page()->switch_keyboard_layout($keyboard_layout);
