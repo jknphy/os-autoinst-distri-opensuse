@@ -736,12 +736,12 @@ sub skip_registration {
     wait_screen_change { send_key "alt-s" };    # skip SCC registration
     assert_screen([qw(scc-skip-reg-warning-yes scc-skip-reg-warning-ok scc-skip-reg-no-warning)]);
     if (match_has_tag('scc-skip-reg-warning-ok')) {
-        send_key "alt-o";    # confirmed skip SCC registration
+        send_key "alt-o";                       # confirmed skip SCC registration
         wait_still_screen;
         send_key $cmd{next};
     }
     elsif (match_has_tag('scc-skip-reg-warning-yes')) {
-        send_key "alt-y";    # confirmed skip SCC registration
+        send_key "alt-y";                       # confirmed skip SCC registration
     }
 }
 
@@ -924,6 +924,10 @@ sub investigate_log_empty_license {
 sub process_modules {
     # Process modules on sle 15
     if (is_sle '15+') {
+        if (get_var('BOOT_HDD_IMAGE') && check_screen('yast-module-content-not-loaded')) {
+            record_soft_failure 'bsc#1191112 - When navigating through YaST module screens the next screen appears, but its content is not loaded';
+            send_key 'tab' for (1 .. 10);
+        }
         my $modules_needle = "modules-preselected-" . get_required_var('SLE_PRODUCT');
         # Check needle 'scc-beta-filter-checkbox', if yes means product still in BETA phase, then continue assert process;
         # if not means product already out of BETA phase, then do not need to assert the 'scc-beta-filter-checkbox' any more.
