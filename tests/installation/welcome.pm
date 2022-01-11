@@ -168,7 +168,7 @@ sub run {
     if (has_product_selection) {
         assert_screen('select-product');
         my $product = get_required_var('SLE_PRODUCT');
-        if (check_var('VIDEOMODE', 'text')) {
+        if (get_var('VIDEOMODE', '') =~ /ssh-x|text/) {
             my %hotkey = get_product_shortcuts();
             die "No shortcut for the \"$product\" product specified." unless $hotkey{$product};
             send_key 'alt-' . $hotkey{$product};
@@ -176,7 +176,7 @@ sub run {
         else {
             assert_and_click('before-select-product-' . $product);
         }
-        assert_screen('select-product-' . $product);
+        assert_screen('select-product-' . $product, 60);
     }
     # Verify install arguments passed by bootloader
     # Linuxrc writes its settings in /etc/install.inf
