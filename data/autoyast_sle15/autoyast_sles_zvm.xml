@@ -414,6 +414,12 @@
         <usercontrol>no</usercontrol>
       </interface>
     </interfaces>
+    <services config:type="list">
+        <service>ssh</service>
+    </services>
+    <ports config:type="list">
+        <port>22/udp</port>
+    </ports>
     <ipv6 config:type="boolean">true</ipv6>
     <keep_install_network config:type="boolean">true</keep_install_network>
     <managed config:type="boolean">false</managed>
