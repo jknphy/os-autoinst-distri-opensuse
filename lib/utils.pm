@@ -1484,7 +1484,7 @@ sub reconnect_mgmt_console {
                 _handle_firewall;
             }
             reset_consoles;
-            select_console('x11', await_console => 0);
+            select_console('x11', await_console => 30);
         }
     }
     elsif (is_ppc64le) {
