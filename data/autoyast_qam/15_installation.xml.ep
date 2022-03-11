@@ -38,6 +38,26 @@
       </listentry>
       % }
     </add_on_products>
+    <add_on_others t="list">
+      <listentry>
+        <media_url>http://openqa.suse.de/assets/repo/dud_test/</media_url>
+        <product>custom_autoyast_service</product>
+        <product_dir>/</product_dir>
+        <name>Customized AutoYaST services</name>
+        <priority config:type="integer">40</priority>
+        <signature-handling>
+          <accept_unsigned_file config:type="boolean">true</accept_unsigned_file>
+          <accept_file_without_checksum config:type="boolean">true</accept_file_without_checksum>
+          <accept_non_trusted_gpg_key>
+            <all config:type="boolean">true</all>
+          </accept_non_trusted_gpg_key>
+          <accept_unknown_gpg_key>
+            <all config:type="boolean">true</all>
+          </accept_unknown_gpg_key>
+          <accept_verification_failed config:type="boolean">true</accept_verification_failed>
+        </signature-handling>
+      </listentry>
+    </add_on_others>
   </add-on>
   % if ($check_var->('ARCH', 's390x')) {
   <bootloader>
