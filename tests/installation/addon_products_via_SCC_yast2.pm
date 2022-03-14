@@ -14,6 +14,7 @@ use testapi;
 use registration;
 use version_utils 'is_sle';
 use x11utils 'turn_off_gnome_screensaver';
+use YaST::Module;
 
 =head2 test_setup
 Define proxy SCC. For SLE 15 we need to clean existing registration
@@ -43,6 +44,8 @@ sub test_setup {
 sub run {
     test_setup;
     y2_module_guitest::launch_yast2_module_x11('scc', target_match => [qw(scc-registration packagekit-warning)], maximize_window => 1);
+    YaST::Module::open(module => 'scc', ui => 'qt');
+    sleep;
     if (match_has_tag 'packagekit-warning') {
         send_key 'alt-y';
         assert_screen 'scc-registration';

@@ -5,6 +5,8 @@ description: >
 vars:
   SCC_ADDONS: sdk
   SCC_REGISTER: yast
+  YUI_REST_API: 1
 schedule:
   - boot/boot_to_desktop
+  - console/setup_libyui_running_system
   - installation/addon_products_via_SCC_yast2
