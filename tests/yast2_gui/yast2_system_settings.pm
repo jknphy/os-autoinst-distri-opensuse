@@ -22,10 +22,10 @@ use x11utils 'start_root_shell_in_xterm';
 
 my $system_settings;
 
-sub pre_run_hook {
-    $system_settings = $testapi::distri->get_system_settings();
-    install_package_via_xterm("yast2-tune");
-}
+# sub pre_run_hook {
+#     $system_settings = $testapi::distri->get_system_settings();
+#     install_package_via_xterm("yast2-tune");
+# }
 
 sub validate_sysrq_config {
     my $expected_status = shift;
@@ -53,11 +53,11 @@ sub sysrq_config {
 }
 
 sub add_invalid_pci_id {
-    record_info("PCI ID Setup", "Add an invalid PCI ID and handle the expected error message");
-    YaST::Module::open(module => 'system_settings', ui => 'qt');
-    $system_settings->add_pci_id_from_list({driver => 'random', sysdir => 'random'});
-    $system_settings->get_error_dialog()->confirm();
-    YaST::Module::close(module => 'system_settings');
+    # record_info("PCI ID Setup", "Add an invalid PCI ID and handle the expected error message");
+    YaST::Module::open(module => 'scc', ui => 'qt');
+    # $system_settings->add_pci_id_from_list({driver => 'random', sysdir => 'random'});
+    # $system_settings->get_error_dialog()->confirm();
+    # YaST::Module::close(module => 'system_settings');
 }
 
 sub remove_pci_id {
@@ -70,11 +70,11 @@ sub remove_pci_id {
 sub run {
     select_console 'x11';
     add_invalid_pci_id();
-    remove_pci_id();
-    sysrq_config("disable");
-    validate_sysrq_config("disabled");
-    sysrq_config("enable");
-    validate_sysrq_config("enabled");
+    # remove_pci_id();
+    # sysrq_config("disable");
+    # validate_sysrq_config("disabled");
+    # sysrq_config("enable");
+    # validate_sysrq_config("enabled");
 }
 
 1;
