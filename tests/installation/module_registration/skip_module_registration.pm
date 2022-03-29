@@ -12,6 +12,7 @@
 use base 'y2_installbase';
 use strict;
 use warnings;
+use testapi;
 
 sub run {
     $testapi::distri->get_module_registration()->skip_registration();

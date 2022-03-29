@@ -166,7 +166,7 @@ sub post_fail_hook {
 
 sub pre_run_hook {
     my $self = shift;
-
+    save_screenshot;
     $self->SUPER::pre_run_hook;
     YuiRestClient::Logger->info($autotest::current_test->{name} . " test module started") if YuiRestClient::is_libyui_rest_api;
 }
