@@ -198,7 +198,7 @@ sub ensure_fullscreen {
     if (check_var('VIDEOMODE', 'ssh-x')) {
         assert_screen($args{tag});
         my $console = select_console("installation");
-        $console->fullscreen({window_name => 'YaST2*'});
+        $console->fullscreen({window_name => 'YaST2.*YaST2'});
     }
 }
 

@@ -311,6 +311,7 @@ sub run {
     format_dasd if (check_var('FORMAT_DASD', 'pre_install'));
     create_encrypted_part_dasd if get_var('ENCRYPT_ACTIVATE_EXISTING');
 
+    sleep;
     select_console("installation");
 
     # We have textmode installation via ssh and the default vnc installation so far
