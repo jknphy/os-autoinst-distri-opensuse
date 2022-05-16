@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 sub run {
-    $testapi::distri->get_module_selection()->select_module('development');
+    $testapi::distri->get_module_selection()->select_module('desktop');
 }
 
 1;
