@@ -38,6 +38,12 @@ sub items {
     return (map { $_->{labels} } @{$self->property('items')});
 }
 
+sub items_ref {
+    my ($self) = @_;
+
+    return $self->property('items');
+}
+
 sub get_index {
     my ($self, $column) = @_;
     my @header = @{$self->header()};

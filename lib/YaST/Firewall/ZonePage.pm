@@ -1,0 +1,50 @@
+# SUSE's openQA tests
+#
+# Copyright 2021 SUSE LLC
+# SPDX-License-Identifier: FSFAP
+
+# Summary: The class introduces all accessing methods for YaST module
+# System Settings Page.
+# Maintainer: QE YaST <qa-sle-yast@suse.de>
+
+package YaST::Firewall::ZonePage;
+use strict;
+use warnings;
+use testapi;
+
+sub new {
+    my ($class, $args) = @_;
+    my $self = bless {
+        app => $args->{app}
+    }, $class;
+    return $self->init();
+}
+
+sub init {
+    my $self = shift;
+    $self->{tab_services_ports} = $self->{app}->tab({id => "\"CWM::DumbTabPager\""});
+    return $self;
+}
+
+sub is_shown {
+    my ($self) = @_;
+    my $is_shown = $self->{tab_services_ports}->exist();
+    save_screenshot if $is_shown;
+    return $is_shown;
+}
+
+# Using "Ports" instead of "&Ports" as tab select function parameter since YuiRestClient::Widget::Base will 
+# using sanitize function remove "&" before compare the string
+sub switch_ports_tab {
+    my ($self) = @_;
+    $self->{tab_services_ports}->select("Ports");
+    save_screenshot;
+}
+
+sub switch_services_tab {
+    my ($self) = @_;
+    $self->{tab_services_ports}->select("Services");
+    save_screenshot;
+}
+
+1;
