@@ -149,7 +149,6 @@ sub configure_zone {
 
     $testapi::distri->get_firewall()->select_zone_page($args{zone});
     save_screenshot;
-    #assert_and_click 'yast2_firewall_zones';
     $testapi::distri->get_firewall()->add_service($args{zone}, $args{service});
     $testapi::distri->get_firewall()->add_tcp_port($args{port});
 }
@@ -165,7 +164,6 @@ sub configure_firewalld {
     $testapi::distri->get_firewall()->get_interfaces_page();
     save_screenshot;
     verify_interface(device => $iface, zone => 'default');
-    # seems exist bug need sumbit since default libyui will show default flag on block not on public, so SKIP following check firstly
     verify_zone(name => 'public', interfaces => $iface, default => 'default');
     set_default_zone 'trusted';
     verify_zone(name => 'trusted', interfaces => $iface, default => 'default', menu_selected => 1);
@@ -174,8 +172,7 @@ sub configure_firewalld {
     change_interface_zone(device => $iface, zone => 'public');
     verify_interface(device => $iface, zone => 'public');
     verify_zone(name => 'public', interfaces => $iface);
-    #another bug , libyui show default on block zone
-    #verify_zone(name => 'trusted', default => 'default');
+    verify_zone(name => 'trusted', default => 'default');
 
     record_info('Zones', "Configure zone adding service and port");
     configure_zone(zone => 'trusted', service => 'bitcoin', port => '7777');

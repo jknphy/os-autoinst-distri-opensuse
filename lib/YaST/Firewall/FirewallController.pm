@@ -102,24 +102,14 @@ sub verify_interface {
 
 sub verify_zone {
    my ($self, $zone, $device, $default) = @_;
-   my $items_ref = $self->{ZonesPage}->get_items_ref;
-   for my $item_ref (@{$items_ref}) {
-       record_info "Debug $item_ref->{labels}->[0]", "$item_ref->{labels}->[1]" . " " . "$item_ref->{selected}";
-       if ($item_ref->{labels}->[0] eq $zone) {
-            if ($default eq "default") {
-                    if ($item_ref->{selected} eq "true") {
-			    if (($item_ref->{labels}->[1] eq "no_interfaces") || ($item_ref->{labels}->[1] eq $device)) {
-				return 1;
-			    } else {
-				return 0;
-			    } 
-                    }
-	    } elsif ($default eq "no_default") {
-                    if ($item_ref->{selected} eq "true") {
-                         return 0; 
-                    } elsif (($item_ref->{labels}->[1] eq "no_interfaces") || ($item_ref->{labels}->[1] eq $device)) {
-                         return 1;
-                    }
+   my @items = $self->{InterfacesPage}->get_items;
+   for my $item (@{$items}) {
+       record_info "Debug $item->[0]", "$item->[1]" . " " . "$item->{2}";
+       if ($item->[0] eq $zone) {
+	    if ((($device eq "no_interface") && ($item->[1] eq "")) || ($item->[1] eq $device)) {
+	        if ((($default eq "no_default") && ($item->[2] eq "" )) || ($item->[2] eq "x")) {
+                     return 1;
+                }
             }
         }
    }
