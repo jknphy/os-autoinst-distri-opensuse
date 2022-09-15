@@ -17,7 +17,7 @@ schedule:
   - console/install_packages_simple
   - console/firewalld_add_port
   - console/setup_libyui_running_system
-  - yast2_gui/yast2_firewall
+  - yast2_gui/yast2_firewall_libyui
 
 conditional_schedule:
   bootcode_options:

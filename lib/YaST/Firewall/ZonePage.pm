@@ -28,9 +28,7 @@ sub init {
 
 sub is_shown {
     my ($self) = @_;
-    my $is_shown = $self->{tab_services_ports}->exist();
-    save_screenshot if $is_shown;
-    return $is_shown;
+    return $self->{tab_services_ports}->exist();
 }
 
 # Using "Ports" instead of "&Ports" as tab select function parameter since YuiRestClient::Widget::Base will 
