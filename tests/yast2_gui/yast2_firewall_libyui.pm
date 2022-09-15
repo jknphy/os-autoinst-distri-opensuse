@@ -152,19 +152,6 @@ sub configure_zone {
     #assert_and_click 'yast2_firewall_zones';
     $testapi::distri->get_firewall()->add_service($args{zone}, $args{service});
     $testapi::distri->get_firewall()->add_tcp_port($args{port});
-    #if ($args{service}) {
-    #    assert_and_click 'yast2_firewall_zone_' . $args{zone} . '_menu';
-    #    assert_and_click 'yast2_firewall_zone_service_known_scroll_on_top';    # assuming allowed list empty
-    #    send_key_until_needlematch 'yast2_firewall_zone_service_' . $args{service} . '_selected', 'down';
-    #    send_key $fw{zones_service_add};
-    #    assert_screen 'yast2_firewall_zone_service_' . $args{service} . '_allowed';
-    #}
-    #if ($args{port}) {
-    #    send_key $fw{zones_ports};
-    #    assert_screen 'yast2_firewall_zone_ports_tab_selected';
-    #    send_key $fw{tcp};
-    #    type_string '7777';
-    #}
 }
 
 sub configure_firewalld {
@@ -179,7 +166,7 @@ sub configure_firewalld {
     save_screenshot;
     verify_interface(device => $iface, zone => 'default');
     # seems exist bug need sumbit since default libyui will show default flag on block not on public, so SKIP following check firstly
-    #verify_zone(name => 'public', interfaces => $iface, default => 'default');
+    verify_zone(name => 'public', interfaces => $iface, default => 'default');
     set_default_zone 'trusted';
     verify_zone(name => 'trusted', interfaces => $iface, default => 'default', menu_selected => 1);
 
