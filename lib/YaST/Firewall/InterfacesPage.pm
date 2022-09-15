@@ -32,9 +32,7 @@ sub init {
 
 sub is_shown {
     my ($self) = @_;
-    my $is_shown = $self->{tbl_interfaces}->exist();
-    save_screenshot if $is_shown;
-    return $is_shown;
+    return $self->{tbl_interfaces}->exist();
 }
 
 sub get_items {
@@ -49,4 +47,5 @@ sub set_interface_zone {
     $self->{ChangeZonePage}->is_shown();
     $self->{ChangeZonePage}->set_interface_zone($device, $zone);
 }
+
 1;

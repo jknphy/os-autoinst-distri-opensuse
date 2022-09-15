@@ -41,47 +41,29 @@ sub init {
 
 sub get_start_up_page {
     my ($self) = @_;
+    $self->{MainPage}->select_start_up_page();
+    die 'StartUp Pane is not displayed' unless $self->{StartUpPage}->is_shown();
     return $self->{StartUpPage};
 }
 
 sub get_interfaces_page {
     my ($self) = @_;
-    return $self->{StartUpPage};
+    $self->{MainPage}->select_interfaces_page();
+    die 'Interfaces Pane is not displayed' unless $self->{InterfacesPage}->is_shown();
+    return $self->{InterfacesPage};
 }
 
-sub is_main_page_shown {
+sub get_main_page {
     my ($self) = @_;
-    return $self->{MainPage}->is_shown;
+    die 'Main Firewall Page is not displayed' unless $self->{MainPage}->is_shown();
+    return $self->{MainPage};
 }
 
-sub is_start_up_page_shown {
+sub get_zones_page {
     my ($self) = @_;
-    return $self->{StartUpPage}->is_shown;
-}
-
-sub is_interfaces_page_shown {
-    my ($self) = @_;
-    return $self->{InterfacesPage}->is_shown;
-}
-
-sub is_zones_page_shown {
-    my ($self) = @_;
-    return $self->{ZonesPage}->is_shown;
-}
-
-sub select_start_up_page {
-    my ($self) = @_;
-    $self->{MainPage}->select_start_up_page;
-}
-
-sub select_interfaces_page {
-    my ($self) = @_;
-    $self->{MainPage}->select_interfaces_page;
-}
-
-sub select_zones_page {
-    my ($self) = @_;
-    $self->{MainPage}->select_zones_page;
+    $self->{MainPage}->select_zones_page();
+    die 'Zones Pane is not displayed' unless $self->{ZonesPage}->is_shown();
+    return $self->{ZonesPage};
 }
 
 sub select_zone_page {
@@ -92,13 +74,11 @@ sub select_zone_page {
 sub start_firewall {
     my ($self) = @_;
     $self->{StartUpPage}->start_firewall;
-    $self->{MainPage}->press_accept;
 }
 
 sub stop_firewall {
     my ($self) = @_;
     $self->{StartUpPage}->stop_firewall;
-    $self->{MainPage}->press_accept;
 }
 
 sub accept_change {

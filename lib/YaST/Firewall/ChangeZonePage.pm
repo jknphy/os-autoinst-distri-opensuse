@@ -29,9 +29,7 @@ sub init {
 
 sub is_shown {
     my ($self) = @_;
-    my $is_shown = $self->{cmb_zone_options}->exist();
-    save_screenshot if $is_shown;
-    return $is_shown;
+    return $self->{cmb_zone_options}->exist();
 }
 
 sub set_interface_zone {

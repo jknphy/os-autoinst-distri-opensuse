@@ -28,9 +28,7 @@ sub init {
 
 sub is_shown {
     my ($self) = @_;
-    my $is_shown = $self->{tb_tcp}->exist();
-    save_screenshot if $is_shown;
-    return $is_shown;
+    return $self->{tb_tcp}->exist();
 }
 
 sub set_tcp_port {

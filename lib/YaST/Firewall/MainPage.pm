@@ -29,40 +29,32 @@ sub init {
 
 sub is_shown {
     my ($self) = @_;
-    my $is_shown = $self->{overview_tree}->exist();
-    save_screenshot if $is_shown;
-    return $is_shown;
-
+    return $self->{overview_tree}->exist();
 }
 
 sub select_start_up_page {
     my ($self) = @_;
     $self->{overview_tree}->select("Start-Up");
-    save_screenshot;
 }
 
 sub select_interfaces_page {
     my ($self) = @_;
     $self->{overview_tree}->select("Interfaces");
-    save_screenshot;
 }
 
 sub select_zones_page {
     my ($self) = @_;
     $self->{overview_tree}->select("Zones");
-    save_screenshot;
 }
 
 sub press_accept {
     my ($self) = @_;
     $self->{btn_accept}->click();
-    save_screenshot;
 }
 
 sub select_zone_page {
     my ($self, $zone) = @_;
     $self->{overview_tree}->select("Zones|$zone");
-    save_screenshot;
 }
 
 1;

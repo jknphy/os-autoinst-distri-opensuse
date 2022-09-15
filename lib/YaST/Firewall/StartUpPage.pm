@@ -29,9 +29,7 @@ sub init {
 
 sub is_shown {
     my ($self) = @_;
-    my $is_shown = $self->{status}->exist();
-    save_screenshot if $is_shown;
-    return $is_shown;
+    return $self->{status}->exist();
 }
 
 sub start_firewall {

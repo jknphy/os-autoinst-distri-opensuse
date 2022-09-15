@@ -29,9 +29,7 @@ sub init {
 
 sub is_shown {
     my ($self) = @_;
-    my $is_shown = $self->{tbl_known_trusted}->exist();
-    save_screenshot if $is_shown;
-    return $is_shown;
+    return $self->{tbl_known_trusted}->exist();
 }
 
 sub select_service {
