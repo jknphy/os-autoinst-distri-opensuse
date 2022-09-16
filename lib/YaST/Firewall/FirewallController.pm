@@ -106,17 +106,15 @@ sub verify_zone {
    for my $item (@items) {
        #record_info "$item->[0]", "$item->[1]" . " " . "$item->{2}";
        if ($item->[0] eq $zone) {
-                #record_info "$item->[0]", "$item->[1]";
-                #record_info "$item->[2]", "$item->[2]";
                 diag "!!!!!!!!!item0= $item->[0]";
                 diag "!!!!!!!!!item1= $item->[1]";
                 diag "!!!!!!!!!item2= $item->[2]";
                 diag "!!!!!!!!!device= $device";
 	    if ((($device eq "no_interfaces") && ($item->[1] eq "")) || ($item->[1] eq $device)) {
-                diag "!!!!!!!!!--level1";
-	        if ((($default eq "no_default") && ($item->[2] eq "" )) || ($item->[2] eq "\u2714")) {
-	        #if ((($default eq "no_default") && ($item->[2] eq "" )) || ($item->[2] ne "")) {
-                diag "!!!!!!!!!--level2";
+                #currently the item->[2] return a check mark which lead following check failed, so
+                # using $item->[2] ne "" as a workaround here
+	        #if ((($default eq "no_default") && ($item->[2] eq "" )) || ($item->[2] eq "\u2714")) {
+	        if ((($default eq "no_default") && ($item->[2] eq "" )) || ($item->[2] ne "")) {
                      return 1;
                 }
             }
