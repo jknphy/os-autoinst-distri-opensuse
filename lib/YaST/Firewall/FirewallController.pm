@@ -101,12 +101,10 @@ sub verify_interface {
 }
 
 sub verify_zone {
-   # for debug
-   return 1;
    my ($self, $zone, $device, $default) = @_;
    my @items = $self->{ZonesPage}->get_items;
    for my $item (@items) {
-       record_info "$item->[0]", "$item->[1]" . " " . "$item->{2}";
+       #record_info "$item->[0]", "$item->[1]" . " " . "$item->{2}";
        if ($item->[0] eq $zone) {
 	    if ((($device eq "no_interface") && ($item->[1] eq "")) || ($item->[1] eq $device)) {
 	        if ((($default eq "no_default") && ($item->[2] eq "" )) || ($item->[2] eq "x")) {
