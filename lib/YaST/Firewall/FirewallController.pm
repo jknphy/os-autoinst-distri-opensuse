@@ -113,7 +113,7 @@ sub verify_zone {
                 diag "!!!!!!!!!item2= $item->[2]";
 	    if ((($device eq "no_interface") && ($item->[1] eq "")) || ($item->[1] eq $device)) {
                 diag "!!!!!!!!!--level1";
-	        if ((($default eq "no_default") && ($item->[2] eq "" )) || ($item->[2] eq "x")) {
+	        if ((($default eq "no_default") && ($item->[2] eq "" )) || ($item->[2] eq "✔")) {
                 diag "!!!!!!!!!--level2";
                      return 1;
                 }
