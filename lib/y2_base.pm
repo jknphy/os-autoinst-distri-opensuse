@@ -122,7 +122,7 @@ sub save_upload_y2logs {
         script_run 'sed -i \'s/^tar \(.*$\)/tar --warning=no-file-changed -\1 || true/\' /usr/sbin/save_y2logs';
         my $filename = "/tmp/y2logs$args{suffix}.tar" . get_available_compression();
         script_run "save_y2logs $filename", 180;
-        upload_logs($filename, failok => 1);
+        upload_logs($filename, failok => 1, timeout => 150);
     } else {    # Redirect logs content to serial
         script_run("journalctl -b --no-pager -o short-precise > /dev/$serialdev");
         script_run("dmesg > /dev/$serialdev");
