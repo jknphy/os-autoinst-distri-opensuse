@@ -28,9 +28,9 @@ sub run {
     $testapi::distri->get_firewall()->set_interface_zone($settings{device}, $settings{zone});
     save_screenshot;
     $testapi::distri->get_firewall()->accept_change();
-    assert_screen 'generic-desktop';
-    sleep;
+    assert_screen 'generic-desktop';    
     select_serial_terminal();
+    systemctl 'restart firewalld', timeout => 200;
     validate_script_output("firewall-cmd --list-interfaces --zone=$settings{zone}", sub { m/$settings{device}/ }, proceed_on_failure => 0);
 }
 
