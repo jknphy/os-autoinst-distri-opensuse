@@ -32,6 +32,7 @@ sub run {
     select_console 'root-console';
     systemctl 'restart firewalld', timeout => 200;
     validate_script_output("firewall-cmd --list-interfaces --zone=$settings{zone}", sub { m/$settings{device}/ }, proceed_on_failure => 0);
+    select_console 'x11', await_console => 0;
 }
 
 sub post_fail_hook {
