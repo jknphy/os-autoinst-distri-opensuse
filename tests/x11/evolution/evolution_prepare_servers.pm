@@ -69,7 +69,7 @@ sub run() {
     } else {
         $dovecot_path = "/usr/share/doc/packages/dovecot";
     }
-
+    sleep;
     assert_script_run "(cd $dovecot_path; bash mkcert.sh)";
 
     # configure postfix
