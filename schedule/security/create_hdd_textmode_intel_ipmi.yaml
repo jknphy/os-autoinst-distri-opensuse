@@ -2,7 +2,7 @@ name: create_hdd_textmode_intel_ipmi
 description: >
   create_hdd_textmode_intel_ipmi
 schedule:
-  - boot/boot_from_pxe
+  - installation/ipxe_install
   - installation/welcome
   - installation/scc_registration
   - installation/addon_products_sle
