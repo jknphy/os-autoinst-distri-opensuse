@@ -24,6 +24,7 @@ sub run {
     zypper_call('in qemu libvirt virt-install virt-manager');
 
     # Start libvirtd daemon and start the default libvirt network
+    sleep;
     assert_script_run('systemctl start libvirtd');
     assert_script_run('virsh net-define /etc/libvirt/qemu/networks/default.xml');
     assert_script_run('virsh net-start default');
