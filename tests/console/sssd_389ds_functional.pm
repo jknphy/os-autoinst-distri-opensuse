@@ -44,7 +44,7 @@ sub run {
         $tag = (is_tumbleweed) ? "registry.opensuse.org/opensuse/tumbleweed" : "registry.opensuse.org/opensuse/leap";
     }
     else {
-        $tag = 'registry.suse.com/suse/sle15:15.4';
+        $tag = 'registry.suse.com/suse/sle15:15.5';
         if (check_var('BETA', '1') || (get_var('SCC_URL') =~ /proxy\.scc/)) {
             my ($v, $sp) = split("-SP", get_var("VERSION"));
             $tag = $sp > 0 ? "registry.suse.de/suse/sle-$v-sp$sp/ga/images/suse/sle$v:$v.$sp" : "registry.suse.de/suse/sle-$v/ga/images/suse/sle$v:$v.0";
