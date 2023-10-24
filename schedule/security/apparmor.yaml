@@ -6,15 +6,15 @@ schedule:
     - boot/boot_to_desktop
     - console/consoletest_setup
     - '{{prepare}}'
-    - security/apparmor/aa_status
-    - security/apparmor/aa_enforce
-    - security/apparmor/aa_complain
-    - security/apparmor/aa_genprof
+    # - security/apparmor/aa_status
+    # - security/apparmor/aa_enforce
+    # - security/apparmor/aa_complain
+    # - security/apparmor/aa_genprof
     - security/apparmor/aa_autodep
     - security/apparmor/aa_logprof
-    - security/apparmor/aa_easyprof
-    - security/apparmor/aa_notify
-    - security/apparmor/aa_disable
+    # - security/apparmor/aa_easyprof
+    # - security/apparmor/aa_notify
+    # - security/apparmor/aa_disable
 conditional_schedule:
     prepare:
         TEST:

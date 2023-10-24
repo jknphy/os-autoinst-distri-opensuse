@@ -74,6 +74,7 @@ sub run {
 
     # delete cache file of aa-autodep generated profile, so that the next reload creates a fresh cache of /etc/apparmor.d/usr.sbin.nscd
     # (wouldn't happen without deleting the cache file because the cache timestamp is newer than the profile (+ used abstractions) timestamp)
+    sleep;
     assert_script_run "rm -v /var/cache/apparmor/*/usr.sbin.nscd";
 }
 
