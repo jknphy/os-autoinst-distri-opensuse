@@ -314,8 +314,9 @@ sub oscap_evaluate_remote {
     select_console 'root-console';
 
     # Verify detection mode with remote
+    sleep;
     my $ret = script_run(
-        "oscap xccdf eval --profile $profile_ID --oval-results --fetch-remote-resources --report $f_report $f_ssg_ds > $f_stdout 2> $f_stderr",
+        "oscap xccdf eval --profile $profile_ID --oval-results --fetch-remote-resources --progress --report $f_report $f_ssg_ds > $f_stdout 2> $f_stderr",
         timeout => 3600
     );
     record_info("Return=$ret",
