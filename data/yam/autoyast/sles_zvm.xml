@@ -186,7 +186,7 @@
       <ipv6_forward t="boolean">false</ipv6_forward>
       <routes t="list">
         <route t="map">
-          <destination>10.162.63.254</destination>
+          <destination>10.145.10.254</destination>
           <device>eth0</device>
           <gateway>-</gateway>
           <netmask>255.255.255.255</netmask>
@@ -194,7 +194,7 @@
         <route t="map">
           <destination>default</destination>
           <device>eth0</device>
-          <gateway>10.162.63.254</gateway>
+          <gateway>10.145.10.254</gateway>
           <netmask>-</netmask>
         </route>
       </routes>
