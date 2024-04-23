@@ -1610,6 +1610,7 @@ sub prepare_disks {
     for my $d (split('\n', $disks)) {
         script_run "wipefs -af /dev/$d";
         script_run "sync";
+        sleep;
         if (get_var('ENCRYPT_ACTIVATE_EXISTING') || get_var('ENCRYPT_CANCEL_EXISTING')) {
             create_encrypted_part(disk => $d);
             if (get_var('ETC_PASSWD') && get_var('ETC_SHADOW')) {
