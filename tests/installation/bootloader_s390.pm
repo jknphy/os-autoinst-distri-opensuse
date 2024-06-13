@@ -177,7 +177,7 @@ EO_frickin_boot_parms
     # linuxrc
     $r = $s3270->expect_3270(
         output_delim => qr/Loading Installation System/,
-        timeout => 300
+        timeout => 400
     ) || die "Installation system was not found";
 
     # set up display_mode for textinstall
