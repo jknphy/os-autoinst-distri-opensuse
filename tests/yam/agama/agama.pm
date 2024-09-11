@@ -9,6 +9,7 @@ use base Yam::Agama::agama_base;
 use strict;
 use warnings;
 use testapi;
+use Utils::Architectures;
 
 use testapi qw(
   assert_script_run
@@ -21,13 +22,21 @@ sub run {
     my $arch = get_required_var('ARCH');
     my $reboot_page = $testapi::distri->get_reboot_page();
 
-    sleep(1800);
+    if (is_s390x() && is_backend_s390x()) {
+      print("Sleeping 30 minutes for testing purposes");
+      sleep(1800);
+    }
+
     script_run("dmesg --console-off");
     assert_script_run("ARCH=${arch} /usr/share/agama/system-tests/" . $test . ".cjs", timeout => 1200);
     script_run("dmesg --console-on");
 
-    select_console('installation');
-    $reboot_page->reboot();
+    if (is_s390x() && is_backend_s390x()) {
+      enter_cmd 'reboot';
+    } else{
+      select_console('installation');
+      $reboot_page->reboot();
+    }
 }
 
 1;
