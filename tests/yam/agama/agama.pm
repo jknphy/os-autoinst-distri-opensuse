@@ -21,6 +21,7 @@ sub run {
     my $arch = get_required_var('ARCH');
     my $reboot_page = $testapi::distri->get_reboot_page();
 
+    sleep(1800);
     script_run("dmesg --console-off");
     assert_script_run("ARCH=${arch} /usr/share/agama/system-tests/" . $test . ".cjs", timeout => 1200);
     script_run("dmesg --console-on");
