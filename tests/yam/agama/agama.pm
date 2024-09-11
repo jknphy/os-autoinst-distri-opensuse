@@ -10,6 +10,7 @@ use strict;
 use warnings;
 use testapi;
 use Utils::Architectures;
+use Utils::Backends;
 
 use testapi qw(
   assert_script_run
