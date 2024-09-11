@@ -23,13 +23,8 @@ sub run {
     my $arch = get_required_var('ARCH');
     my $reboot_page = $testapi::distri->get_reboot_page();
 
-    if (is_s390x() && is_backend_s390x()) {
-      print("Sleeping 30 minutes for testing purposes");
-      sleep(1800);
-    }
-
     script_run("dmesg --console-off");
-    assert_script_run("ARCH=${arch} /usr/share/agama/system-tests/" . $test . ".cjs", timeout => 1200);
+    assert_script_run("AGAMA_SLOWMO=50 ARCH=${arch} /usr/share/agama/system-tests/" . $test . ".cjs", timeout => 1200);
     script_run("dmesg --console-on");
 
     if (is_s390x() && is_backend_s390x()) {
