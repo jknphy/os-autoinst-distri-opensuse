@@ -32,7 +32,9 @@ sub run {
     assert_script_run("ARCH=${arch} /usr/share/agama/system-tests/" . $test . ".cjs", timeout => 1200);
     script_run("dmesg --console-on");
 
-    if (!is_s390x() && !is_backend_s390x()) {
+    if (is_s390x() && is_backend_s390x()) {
+      enter_cmd 'reboot';
+    } else{
       select_console('installation');
       $reboot_page->reboot();
     }
