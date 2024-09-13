@@ -475,7 +475,12 @@ sub init_consoles {
             || is_svirt_except_s390x))
     {
         $self->add_console('install-shell', 'tty-console', {tty => 2});
-        $self->add_console('installation', 'tty-console', {tty => check_var('VIDEOMODE', 'text') ? 1 : 7});
+        if (get_var('AGAMA')) {
+            $self->add_console('installation', 'tty-console', {tty => 2});
+        }
+        else {
+            $self->add_console('installation', 'tty-console', {tty => check_var('VIDEOMODE', 'text') ? 1 : 7});
+        }
         $self->add_console('install-shell2', 'tty-console', {tty => 9});
         # On SLE15 X is running on tty2 see bsc#1054782
         $self->add_console('root-console', 'tty-console', {tty => get_root_console_tty});
@@ -683,7 +688,6 @@ sub init_consoles {
                 username => 'root'
             });
     }
-
     return;
 }
 
@@ -819,7 +823,8 @@ sub activate_console {
     # Select configure serial and redirect to root-ssh instead
     return use_ssh_serial_console if (get_var('BACKEND', '') =~ /ikvm|ipmi|spvm|pvm_hmc/ && $console =~ m/^(root-console|install-shell|log-console)$/);
     if ($console eq 'install-shell') {
-        if (get_var("LIVECD")) {
+        # Agama behaves similarly as LIVE but we set a fixed password there
+        if (get_var("LIVECD") && !get_var('AGAMA')) {
             # LIVE CDs do not run inst-consoles as started by inst-linux (it's regular live run, auto-starting yast live installer)
             my $vt = get_root_console_tty();
             assert_screen "tty${vt}-selected", 10;
@@ -1002,3 +1007,4 @@ sub console_selected {
 }
 
 1;
+

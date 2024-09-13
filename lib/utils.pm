@@ -123,6 +123,9 @@ our @EXPORT = qw(
   upload_y2logs
   enable_persistent_kernel_log
   enable_console_kernel_log
+  ensure_testuser_present
+  is_disk_image
+  is_ipxe_with_disk_image
 );
 
 our @EXPORT_OK = qw(
@@ -1587,6 +1590,19 @@ sub arrays_subset {
     return @result;
 }
 
+=head2 ensure_testuser_present
+Ensure testuser (UID 1000) is present on the system.
+
+If the user is not present, it will create it with the default password
+=cut
+
+sub ensure_testuser_present {
+    if ($testapi::username ne 'root' && script_run("id $testapi::username") != 0) {
+        assert_script_run("useradd -u 1000 -m $testapi::username");
+        assert_script_run("echo '$testapi::username:$testapi::password' | chpasswd");
+    }
+}
+
 =head2 ensure_serialdev_permissions
 
  ensure_serialdev_permissions();
@@ -1600,6 +1616,9 @@ test user as well as root.
 sub ensure_serialdev_permissions {
     my ($self) = @_;
     return if get_var('ROOTONLY');
+
+    ensure_testuser_present;
+
     # ownership has effect immediately, group change is for effect after
     # reboot an alternative https://superuser.com/a/609141/327890 would need
     # handling of optional sudo password prompt within the exec
@@ -3135,6 +3154,34 @@ sub enable_console_kernel_log {
     record_info("Content of /boot/grub2/grub.cfg", script_output("cat /boot/grub2/grub.cfg"));
     assert_script_run("echo 8 > /proc/sys/kernel/printk");
     record_info("Content of /proc/sys/kernel/printk", script_output("cat /proc/sys/kernel/printk"));
+}
+
+=head2 is_disk_image
+
+ is_disk_image;
+
+Identify whether test runs with linux disk image built by kiwi or similar programs.
+HDD_1 is usually used if disk image is available on openQA server. Test run attempts
+downloading HDD_1, failure of which leads to failed test run. INSTALL_HDD_IMAGE is
+introduced for installation with disk image which might be located somewhere else
+and also more flexibility.
+=cut
+
+sub is_disk_image {
+    return 1 if ((get_var('HDD_1') or get_var('INSTALL_HDD_IMAGE')) and get_var('BOOT_HDD_IMAGE'));
+    return 0;
+}
+
+=head2 is_ipxe_with_disk_image
+
+ is_ipxe_with_disk_image;
+
+Identify whether test runs boots from ipxe and deploy linux disk image built by kiwi or similar programs
+=cut
+
+sub is_ipxe_with_disk_image {
+    return 1 if (is_ipxe_boot and is_disk_image);
+    return 0;
 }
 
 1;

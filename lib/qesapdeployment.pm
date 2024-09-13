@@ -110,6 +110,7 @@ our @EXPORT = qw(
   qesap_terraform_clean_up_retry
   qesap_terrafom_ansible_deploy_retry
   qesap_ansible_error_detection
+  qesap_test_postfail
 );
 
 =head1 DESCRIPTION
@@ -1344,7 +1345,6 @@ sub qesap_aws_get_region_subnets {
     my (%args) = @_;
     croak 'Missing mandatory vpc_id argument' unless $args{vpc_id};
 
-    # Get the VPC tag Workspace
     my $cmd = join(' ', 'aws ec2 describe-subnets',
         '--filters', "\"Name=vpc-id,Values=$args{vpc_id}\"",
         '--query "Subnets[].{AZ:AvailabilityZone,SI:SubnetId}"',
@@ -1379,10 +1379,12 @@ sub qesap_aws_get_vpc_id {
     my (%args) = @_;
     croak 'Missing mandatory resource_group argument' unless $args{resource_group};
 
+    # tag names has to be aligned to
+    # https://github.com/SUSE/qe-sap-deployment/blob/main/terraform/aws/infrastructure.tf
     my $cmd = join(' ', 'aws ec2 describe-instances',
         '--region', get_required_var('PUBLIC_CLOUD_REGION'),
         '--filters',
-        '"Name=tag-key,Values=Workspace"',
+        '"Name=tag-key,Values=workspace"',
         "\"Name=tag-value,Values=$args{resource_group}\"",
         '--query',
         # the two 0 index result in select only the vpc of vmhana01
@@ -1586,7 +1588,8 @@ sub qesap_aws_get_mirror_tg {
 
 =head3 qesap_aws_get_vpc_workspace
 
-    Get the VPC tag Workspace
+    Get the VPC tag workspace defined in
+    https://github.com/SUSE/qe-sap-deployment/blob/main/terraform/aws/infrastructure.tf
 
 =over 1
 
@@ -1602,14 +1605,14 @@ sub qesap_aws_get_vpc_workspace {
     return qesap_aws_filter_query(
         cmd => 'describe-vpcs',
         filter => "\"Name=vpc-id,Values=$args{vpc_id}\"",
-        query => '"Vpcs[*].Tags[?Key==\`Workspace\`].Value"'
+        query => '"Vpcs[*].Tags[?Key==\`workspace\`].Value"'
     );
 }
 
 =head3 qesap_aws_get_routing
 
     Get the Routing table: searching Routing Table with external connection
-    and get the Workspace tag
+    and get the RouteTableId
 
 =over 1
 
@@ -2523,7 +2526,6 @@ sub qesap_terrafom_ansible_deploy_retry {
     return $detected_error;
 }
 
-
 =head2 qesap_ansible_error_detection
 
     qesap_ansible_error_detection( error_log=>$error_log )
@@ -2570,6 +2572,58 @@ sub qesap_ansible_error_detection {
     }
     record_info('ANSIBLE ISSUE', $error_message) unless $ret_code eq 0;
     return $ret_code;
+}
+
+=head2 qesap_test_postfail
+
+  qesap_test_postfail()
+
+  Post fail tasks suitable for post_fail_hook of the test modules.
+  This API is mainly designed for qesap regresstion test modules.
+
+=over 2
+
+=item B<PROVIDER> - cloud provider name as from PUBLIC_CLOUD_PROVIDER setting
+
+=item B<NET_PEERING_ID> - ID of the network peering, for Azure it has to be the name 
+                          of the Resource Group of the mirror, for AWS it has to be the
+                          something different from an empty string, for example
+                          the setting about the IP RANGE.
+
+=back
+=cut
+
+sub qesap_test_postfail {
+    my (%args) = @_;
+    croak 'Missing mandatory provider argument' unless $args{provider};
+    $args{net_peering_id} //= '';
+
+    qesap_cluster_logs();
+    qesap_upload_logs();
+    if ($args{provider} eq 'AZURE') {
+        if ($args{net_peering_id} ne '') {
+            my $rg = qesap_az_get_resource_group();
+            qesap_az_vnet_peering_delete(source_group => $rg, target_group => $args{net_peering_id});
+        }
+    }
+    elsif ($args{provider} eq 'EC2') {
+        if ($args{net_peering_id} ne '') {
+            qesap_aws_delete_transit_gateway_vpc_attachment(name => qesap_calculate_deployment_name('qesapval') . '*');
+        }
+    }
+    # TODO : GCP is not supported yet.
+    qesap_execute(
+        cmd => 'ansible',
+        cmd_options => '-d',
+        logname => 'qesap_exec_ansible_destroy.log.txt',
+        verbose => 1,
+        timeout => 300);
+    qesap_execute(
+        cmd => 'terraform',
+        cmd_options => '-d',
+        logname => 'qesap_exec_terraform_destroy.log.txt',
+        verbose => 1,
+        timeout => 1200);
 }
 
 1;

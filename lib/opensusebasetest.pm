@@ -303,7 +303,7 @@ Upload C</var/log/pk_backend_zypp>.
 
 sub upload_packagekit_logs {
     my ($self) = @_;
-    upload_logs '/var/log/pk_backend_zypp';
+    tar_and_upload_log('/var/log/pk_backend_zypp*', '/tmp/pk_backend_zypp.tar.bz2');
 }
 
 =head2 set_standard_prompt
@@ -476,7 +476,7 @@ When bootloader appears, make sure to boot from local disk when it is on aarch64
 sub wait_grub_to_boot_on_local_disk {
     # assuming the cursor is on 'installation' by default and 'boot from
     # harddisk' is above
-    my $switch_key = (is_opensuse && get_var('LIVECD')) ? 'down' : 'up';
+    my $switch_key = (is_opensuse && get_var('LIVECD')) || get_var('AGAMA') ? 'down' : 'up';
     send_key_until_needlematch 'inst-bootmenu-boot-harddisk', "$switch_key";
     boot_local_disk;
     my @tags = qw(grub2 tianocore-mainmenu);
