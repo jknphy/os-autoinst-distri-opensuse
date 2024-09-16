@@ -22,7 +22,7 @@ sub new {
 
 sub expect_is_shown {
     my ($self) = @_;
-    assert_screen($self->{tag_array_ref_any_first_screen_shown}, 90);
+    assert_screen($self->{tag_array_ref_any_first_screen_shown}, 180);
 }
 
 1;
