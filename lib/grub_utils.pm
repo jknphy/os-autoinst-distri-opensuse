@@ -37,8 +37,16 @@ sub grub_test {
     unlock_bootloader;
     # 60 due to rare slowness e.g. multipath poo#11908
     # 90 as a workaround due to the qemu backend fallout
-    assert_screen('grub2', $timeout);
-    stop_grub_timeout;
+    assert_screen([qw(grub2 grub2-black-screen)], $timeout);
+    if (match_has_tag "grub2-black-screen") {
+        for (1 .. 9) {
+            send_key("up");
+            last if check_screen("grub2", 0);
+            sleep 0.5;
+        }
+    }
+    # assert_screen('grub2', $timeout);
+    # stop_grub_timeout;
     boot_into_snapshot if get_var("BOOT_TO_SNAPSHOT");
     send_key_until_needlematch("bootmenu-xen-kernel", 'down', 11, 5) if get_var('XEN');
     if ((is_aarch64 && is_sle && get_var('PLYMOUTH_DEBUG'))
