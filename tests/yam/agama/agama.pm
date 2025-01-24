@@ -20,6 +20,7 @@ use testapi qw(
   parse_extra_log
   upload_logs
   console
+  select_console
 );
 use utils qw(reconnect_mgmt_console);
 
