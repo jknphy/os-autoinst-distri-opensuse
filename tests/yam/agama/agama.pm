@@ -19,7 +19,9 @@ use testapi qw(
   record_soft_failure
   parse_extra_log
   upload_logs
+  console
 );
+use utils qw(reconnect_mgmt_console);
 
 sub run {
     my $self = shift;
@@ -44,7 +46,11 @@ sub run {
     diag($content);
     croak("command \n'$node_cmd'\n failed") unless $ret == 0;
     $self->upload_agama_logs();
+    my $svirt = console('svirt');
+    $svirt->change_domain_element(os => boot => {dev => 'hd'});
+    select_console 'root-console';
     $reboot_page->reboot();
+    reconnect_mgmt_console(timeout => 1400, grub_timeout => 360);
 }
 
 1;
