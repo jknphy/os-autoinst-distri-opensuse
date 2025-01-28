@@ -57,8 +57,16 @@ sub split_lines {
     }
 
     $params = '';
+    my ($first_part, $second_part);
     for my $line (@lines) {
-        $params .= "String(\"$line \")\nNewline\n";
+        if (length($line) > 79) {
+            ($first_part, $second_part) = (substr($line, 0, 79), substr($line, 79));
+            $params .= "String(\"$first_part \")\n";
+            $params .= "String(\"$second_part \")\nNewline\n";
+        }
+        else {
+            $params .= "String(\"$line \")\nNewline\n";
+        }
     }
 
     return $params;
