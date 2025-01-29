@@ -48,7 +48,7 @@ sub run {
     diag($content);
     croak("command \n'$node_cmd'\n failed") unless $ret == 0;
 
-    $self->upload_agama_logs();
+    # $self->upload_agama_logs();
 
     # make sure we will boot from hard disk next time
     if (is_s390x && is_svirt) {
@@ -56,7 +56,7 @@ sub run {
         my $svirt = console('svirt')->change_domain_element(os => boot => {dev => 'hd'});
     }
 
-    $reboot_page->reboot();
+    # $reboot_page->reboot();
 }
 
 1;
