@@ -53,6 +53,7 @@ our @EXPORT = qw(
   prepare_ay_file
   generate_xml
   parse_dud_parameter
+  read_iso
 );
 
 =head2 expand_patterns
@@ -819,6 +820,33 @@ sub generate_json_profile {
     diag $profile_url;
     upload_profile(path => $profile_name, profile => $profile_content);
     return $profile_url;
+}
+
+sub read_iso {
+    # diag("Finding ISO cmd start");
+    # # my $find_output = `find / -name "SLES-16.0-Online-x86_64-Build134.43.install.iso"`;
+    # my $find_output = `ls`;
+    # die "Error finding ISO image" if ($? != 0);
+    # diag("Finding ISO cmd finish");
+    # record_info("Profile", $find_output);
+
+    # my $iso = 'SLES-16.0-Online-x86_64-Build134.43.install.iso';
+    # my $package_detail = `isoinfo -j UTF-8 -R -x /LiveOS/.packages.json.gz -i $iso | gunzip | jq -r '.[] | select(.name=="agama") | .version'`;
+    # die "Error getting package detail from ISO image" if ($? != 0);
+    # record_info("Profile", $profile_content);
+
+    my $iso = 'SLES-16.0-Online-' . get_var('ARCH') . '-Build134.43.install.iso';
+    my $iso_info = `isoinfo -d -i $iso`;
+    die "Error getting package detail from ISO image" if ($? != 0);
+    record_info("isoinfo", $iso_info);
+
+    my $gunzip_version = `gunzip --version`;
+    die "Error getting gunzip version" if ($? != 0);
+    record_info("gunzip ver.", $gunzip_version);
+
+    my $jq_version = `jq --version`;
+    die "Error getting jq version" if ($? != 0);
+    record_info("jq ver.", $jq_version);
 }
 
 =head2 upload_profile
