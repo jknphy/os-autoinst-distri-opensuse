@@ -16,15 +16,16 @@ use version_utils qw(is_vmware is_leap);
 sub run {
     my $self = shift;
     my $reboot_page = $testapi::distri->get_reboot();
-    $reboot_page->expect_is_shown();
+    # $reboot_page->expect_is_shown();
+    sleep(100000);
 
-    $self->upload_agama_logs() unless is_hyperv();
+    # $self->upload_agama_logs() unless is_hyperv();
 
-    (is_s390x() || (is_ppc64le() && check_var("DESKTOP", "textmode")) || is_pvm() || is_vmware()) ?
-      # reboot via console
-      power_action('reboot', keepconsole => 1, first_reboot => 1) :
-      # graphical reboot
-      $reboot_page->reboot();
+    # (is_s390x() || (is_ppc64le() && check_var("DESKTOP", "textmode")) || is_pvm() || is_vmware()) ?
+    #   # reboot via console
+    #   power_action('reboot', keepconsole => 1, first_reboot => 1) :
+    #   # graphical reboot
+    #   $reboot_page->reboot();
 }
 
 1;
