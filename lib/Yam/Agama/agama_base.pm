@@ -12,7 +12,7 @@ use testapi;
 use Utils::Logging 'save_and_upload_log';
 
 sub post_fail_hook {
-    upload_agama_logs();
+    # upload_agama_logs();
     upload_browser_automation_dumps();
 }
 
