@@ -58,21 +58,21 @@ sub run {
     diag($content);
     croak("command \n'$node_cmd'\n failed") unless $ret == 0;
 
-    $self->upload_agama_logs();
+    # $self->upload_agama_logs();
 
-    return if get_var('INST_ABORT');
+    # return if get_var('INST_ABORT');
 
-    # make sure we will boot from hard disk next time
-    if (is_s390x() && is_svirt()) {
-        select_console 'installation';
-        my $svirt = console('svirt')->change_domain_element(os => boot => {dev => 'hd'});
-    }
+    # # make sure we will boot from hard disk next time
+    # if (is_s390x() && is_svirt()) {
+    #     select_console 'installation';
+    #     my $svirt = console('svirt')->change_domain_element(os => boot => {dev => 'hd'});
+    # }
 
-    (is_s390x() || is_pvm() || is_headless_installation()) ?
-      # reboot via console
-      power_action('reboot', keepconsole => 1, first_reboot => 1) :
-      # graphical reboot
-      $reboot_page->reboot();
+    # (is_s390x() || is_pvm() || is_headless_installation()) ?
+    #   # reboot via console
+    #   power_action('reboot', keepconsole => 1, first_reboot => 1) :
+    #   # graphical reboot
+    #   $reboot_page->reboot();
 }
 
 1;
