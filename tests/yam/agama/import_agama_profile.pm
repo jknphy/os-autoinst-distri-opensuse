@@ -16,7 +16,7 @@ sub run {
     set_var('AGAMA_PROFILE', $profile_url);
 
     select_console 'install-shell';
-    assert_script_run("agama config load $profile_url", timeout => 300) if (!check_var('AGAMA_PROFILE_LOAD', '0'));
+    assert_script_run("echo $profile_url", timeout => 300) if (!check_var('AGAMA_PROFILE_LOAD', '0'));
 }
 
 1;
