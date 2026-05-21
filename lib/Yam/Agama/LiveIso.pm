@@ -36,6 +36,12 @@ sub parse_agama_packages {
     my @packages = qw(agama agama-autoinstall agama-cli agama-web-ui);
     my %versions = map { $_ => get_package_version($_) } @packages;
     die "Error getting Agama packages info from ISO image" if ($? != 0);
+
+    # Set each package version as environment variable
+    set_var('AGAMA_PACKAGE_VERSION', $versions{'agama'});
+    set_var('AGAMA_AUTOINSTALL_PACKAGE_VERSION', $versions{'agama-autoinstall'});
+    set_var('AGAMA_CLI_PACKAGE_VERSION', $versions{'agama-cli'});
+    set_var('AGAMA_WEBUI_PACKAGE_VERSION', $versions{'agama-web-ui'});
     join("\n", map { $_ . " => " . $versions{$_} } keys %versions);
 }
 
