@@ -18,9 +18,9 @@ sub run {
 
     select_console 'install-shell';
 
-    my $workaround = is_sle('16.1+') ? " > /dev/null" : "";
-    record_soft_failure("bsc#1265431 - Agama config load blocks in BUSY state") if (is_sle('16.1+'));
-    assert_script_run("agama config load $profile_url" . $workaround, timeout => 300) if (!check_var('AGAMA_PROFILE_LOAD', '0'));
+    # my $workaround = is_sle('16.1+') ? " > /dev/null" : "";
+    # record_soft_failure("bsc#1265431 - Agama config load blocks in BUSY state") if (is_sle('16.1+'));
+    assert_script_run("agama config load $profile_url", timeout => 300) if (!check_var('AGAMA_PROFILE_LOAD', '0'));
 }
 
 1;
