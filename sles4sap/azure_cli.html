@@ -68,6 +68,7 @@
       <li><a href="#az_validate_uuid_pattern">az_validate_uuid_pattern</a></li>
       <li><a href="#az_storage_blob_upload">az_storage_blob_upload</a></li>
       <li><a href="#az_storage_blob_lease_acquire">az_storage_blob_lease_acquire</a></li>
+      <li><a href="#az_storage_blob_delete">az_storage_blob_delete</a></li>
       <li><a href="#az_storage_blob_list">az_storage_blob_list</a></li>
       <li><a href="#az_storage_blob_update">az_storage_blob_update</a></li>
       <li><a href="#az_keyvault_list">az_keyvault_list</a></li>
@@ -118,6 +119,10 @@
 <dd>
 
 </dd>
+<dt id="failok---Ignore-error-messages-and-return-result.-Default:-False"><b>failok</b> - Ignore error messages and return result. Default: False</dt>
+<dd>
+
+</dd>
 </dl>
 
 <h2 id="az_version">az_version</h2>
@@ -141,6 +146,10 @@
 
 </dd>
 <dt id="region---Azure-region-where-to-create-the-resource-group"><b>region</b> - Azure region where to create the resource group</dt>
+<dd>
+
+</dd>
+<dt id="tags---optional-string-of-space-separated-tags-to-apply-to-the-Azure-resources"><b>tags</b> - optional string of space separated tags to apply to the Azure resources</dt>
 <dd>
 
 </dd>
@@ -234,6 +243,10 @@
 <dd>
 
 </dd>
+<dt id="tags---optional-string-of-space-separated-tags-to-apply-to-the-virtual-network"><b>tags</b> - optional string of space separated tags to apply to the virtual network</dt>
+<dd>
+
+</dd>
 </dl>
 
 <h2 id="az_network_vnet_subnet_update">az_network_vnet_subnet_update</h2>
@@ -302,6 +315,10 @@
 <dd>
 
 </dd>
+<dt id="tags---optional-string-of-space-separated-tags-to-apply-to-the-NSG"><b>tags</b> - optional string of space separated tags to apply to the NSG</dt>
+<dd>
+
+</dd>
 </dl>
 
 <h2 id="az_network_nsg_rule_create">az_network_nsg_rule_create</h2>
@@ -365,6 +382,10 @@
 <dd>
 
 </dd>
+<dt id="tags---optional-string-of-space-separated-tags-to-apply-to-the-PubIP"><b>tags</b> - optional string of space separated tags to apply to the PubIP</dt>
+<dd>
+
+</dd>
 </dl>
 
 <h2 id="az_network_publicip_get">az_network_publicip_get</h2>
@@ -412,6 +433,10 @@
 
 </dd>
 <dt id="public_ip---add-to-the-NAT-Gateway-a-public-IP"><b>public_ip</b> - add to the NAT Gateway a public IP</dt>
+<dd>
+
+</dd>
+<dt id="tags---optional-string-of-space-separated-tags-to-the-NAT-Gateway"><b>tags</b> - optional string of space separated tags to the NAT Gateway</dt>
 <dd>
 
 </dd>
@@ -463,6 +488,10 @@
 
 </dd>
 <dt id="fip---optionally-add---private-ip-address"><b>fip</b> - optionally add --private-ip-address</dt>
+<dd>
+
+</dd>
+<dt id="tags---optional-string-of-space-separated-tags-to-apply-to-the-load-balancer"><b>tags</b> - optional string of space separated tags to apply to the load balancer</dt>
 <dd>
 
 </dd>
@@ -582,6 +611,10 @@
 <dd>
 
 </dd>
+<dt id="tags---optional-string-of-space-separated-tags-to-apply-to-the-availability-set"><b>tags</b> - optional string of space separated tags to apply to the availability set</dt>
+<dd>
+
+</dd>
 </dl>
 
 <h2 id="az_vm_as_list">az_vm_as_list</h2>
@@ -633,6 +666,10 @@
 
 </dd>
 <dt id="source---URI-of-the-vhd-disk-from-which-the-image-will-be-created"><b>source</b> - URI of the vhd disk from which the image will be created</dt>
+<dd>
+
+</dd>
+<dt id="tags---optional-string-of-space-separated-tags-to-apply-to-the-image"><b>tags</b> - optional string of space separated tags to apply to the image</dt>
 <dd>
 
 </dd>
@@ -722,7 +759,7 @@
 <dd>
 
 </dd>
-<dt id="tags---reference-to-a-list-of-tags-to-apply-to-the-VM"><b>tags</b> - reference to a list of tags to apply to the VM</dt>
+<dt id="tags---optional-string-of-space-separated-tags-to-apply-to-the-VM"><b>tags</b> - optional string of space separated tags to apply to the VM</dt>
 <dd>
 
 </dd>
@@ -911,6 +948,10 @@
 
 </dd>
 <dt id="pubip_name---existing-public-ip-name"><b>pubip_name</b> - existing public ip name</dt>
+<dd>
+
+</dd>
+<dt id="tags---optional-string-of-space-separated-tags-to-apply-to-the-NIC"><b>tags</b> - optional string of space separated tags to apply to the NIC</dt>
 <dd>
 
 </dd>
@@ -1158,6 +1199,10 @@ Return a validated systemAssignedIdentity ID or die.</code></pre>
 
 </dd>
 <dt id="name---name-for-the-storage-account-to-be-created.-Storage-account-name-must-be-between-3-and-24-characters-in-length-and-use-numbers-and-lower-case-letters-only"><b>name</b> - name for the storage account to be created. Storage account name must be between 3 and 24 characters in length and use numbers and lower-case letters only.</dt>
+<dd>
+
+</dd>
+<dt id="tags---optional-string-of-space-separated-tags-to-apply-to-the-storage-account"><b>tags</b> - optional string of space separated tags to apply to the storage account</dt>
 <dd>
 
 </dd>
@@ -1481,6 +1526,41 @@ identifiers for Azure resources.</code></pre>
 <dd>
 
 </dd>
+<dt id="failok---Ignore-error-messages-and-return-result.-Default:-False1"><b>failok</b> - Ignore error messages and return result. Default: False</dt>
+<dd>
+
+</dd>
+</dl>
+
+<h2 id="az_storage_blob_delete">az_storage_blob_delete</h2>
+
+<pre><code>az_storage_blob_delete(
+    container_name=&gt;&#39;somecontainer&#39;,
+    storage_account_name=&gt;&#39;storageaccount&#39;,
+    name=&gt;&#39;filename&#39;,
+    timeout =&gt; 120
+);</code></pre>
+
+<p>Delete blob file specified by <b>storage_account_name</b>, <b>container_name</b> and <b>name</b>. Returns az cli command exit code.</p>
+
+<dl>
+
+<dt id="container_name-Existing-storage-container-name2"><b>container_name</b> Existing storage container name.</dt>
+<dd>
+
+</dd>
+<dt id="storage_account_name-Storage-account-name2"><b>storage_account_name</b> Storage account name.</dt>
+<dd>
+
+</dd>
+<dt id="name-Blob-file-name"><b>name</b> Blob file name.</dt>
+<dd>
+
+</dd>
+<dt id="timeout-az-command-timeout:-default-of-wait_serial-https:-open.qa-api-testapi-script_output1"><b>timeout</b> az command timeout: default of `wait_serial` https://open.qa/api/testapi/#script_output</dt>
+<dd>
+
+</dd>
 </dl>
 
 <h2 id="az_storage_blob_list">az_storage_blob_list</h2>
@@ -1495,11 +1575,11 @@ identifiers for Azure resources.</code></pre>
 
 <dl>
 
-<dt id="container_name-Existing-storage-container-name2"><b>container_name</b> Existing storage container name.</dt>
+<dt id="container_name-Existing-storage-container-name3"><b>container_name</b> Existing storage container name.</dt>
 <dd>
 
 </dd>
-<dt id="storage_account_name-Storage-account-name2"><b>storage_account_name</b> Storage account name.</dt>
+<dt id="storage_account_name-Storage-account-name3"><b>storage_account_name</b> Storage account name.</dt>
 <dd>
 
 </dd>
@@ -1507,7 +1587,7 @@ identifiers for Azure resources.</code></pre>
 <dd>
 
 </dd>
-<dt id="timeout-az-command-timeout:-default-of-wait_serial-https:-open.qa-api-testapi-script_output1"><b>timeout</b> az command timeout: default of `wait_serial` https://open.qa/api/testapi/#script_output</dt>
+<dt id="timeout-az-command-timeout:-default-of-wait_serial-https:-open.qa-api-testapi-script_output2"><b>timeout</b> az command timeout: default of `wait_serial` https://open.qa/api/testapi/#script_output</dt>
 <dd>
 
 </dd>
@@ -1645,6 +1725,10 @@ identifiers for Azure resources.</code></pre>
 
 </dd>
 <dt id="name-Private-DNS-zone-name"><b>name</b> Private DNS zone name</dt>
+<dd>
+
+</dd>
+<dt id="tags-optional-string-of-space-separated-tags-to-apply-to-the-private-DNS-zone"><b>tags</b> optional string of space separated tags to apply to the private DNS zone</dt>
 <dd>
 
 </dd>
