@@ -222,7 +222,7 @@
 
 <pre><code>my $ret = az_group_name_get();</code></pre>
 
-<p>Get the name of all existing Resource Group in the current subscription. By default the output is an array of strings. Output is always an hash with `data` and `err` keys: `data` is the decode_json of the stdout. The internal data structure can change accordingly to what is provided via <b>query</b> `err` is the stderr string, key is always present but it could have empty value.</p>
+<p>Get the name of all existing Resource Group in the current subscription. The output is a reference to an array of strings. For example: output =&gt; [&quot;ip2t123&quot;, &quot;ip2t456&quot;];</p>
 
 <dl>
 
@@ -236,7 +236,7 @@
 
 <pre><code>az_group_delete( name =&gt; &#39;openqa-rg&#39; );</code></pre>
 
-<p>Delete a resource group with a specific name</p>
+<p>Delete a resource group with a specific name. Returns structure passed by <code>az()</code>. Failure is handled by the caller.</p>
 
 <dl>
 
@@ -244,7 +244,7 @@
 <dd>
 
 </dd>
-<dt id="timeout---timeout-default-60"><b>timeout</b> - timeout, default 60</dt>
+<dt id="timeout---timeout-default-inherited-by-az"><b>timeout</b> - timeout, default inherited by az()</dt>
 <dd>
 
 </dd>
@@ -1170,7 +1170,7 @@
 <dd>
 
 </dd>
-<dt id="timeout---timeout-default-601"><b>timeout</b> - timeout, default 60</dt>
+<dt id="timeout---timeout-default-60"><b>timeout</b> - timeout, default 60</dt>
 <dd>
 
 </dd>
@@ -1803,9 +1803,11 @@ identifiers for Azure resources.</code></pre>
 
 <h2 id="az_network_dns_zone_delete">az_network_dns_zone_delete</h2>
 
-<pre><code>az_network_dns_zone_delete(resource_group=&gt;&#39;resource group name&#39;, zone_name=&gt;&#39;default.com&#39;);</code></pre>
+<pre><code>my $res = az_network_dns_zone_delete(resource_group=&gt;&#39;resource group name&#39;, zone_name=&gt;&#39;default.com&#39;);</code></pre>
 
 <p>Deletes private DNS zone within <b>resource_group</b> specified by <b>zone_name</b>.</p>
+
+<p>The az cli command is always executed with <b>failok</b>: the function never dies on az cli errors. It returns the whole <b>az()</b> result hash (keys <b>rc</b>, <b>output</b>, <b>error</b>) and the caller has to check it.</p>
 
 <dl>
 
@@ -1963,13 +1965,23 @@ identifiers for Azure resources.</code></pre>
 
 <h2 id="az_network_dns_zones_cleanup">az_network_dns_zones_cleanup</h2>
 
-<pre><code>az_network_dns_zones_cleanup(resource_group=&gt;&#39;resource group name&#39;);</code></pre>
+<pre><code>az_network_dns_zones_cleanup(resource_group=&gt;&#39;resource group name&#39; [, timeout =&gt; 120, retry_delay =&gt; 10]);</code></pre>
 
 <p>Searches and deletes all DNS zones within specified <b>resource_group</b>.</p>
+
+<p>Azure can keep reporting a just deleted DNS link as nested resource of the zone for a while. Therefore, a zone deletion failing with <b>CannotDeleteResource</b> is retried, for each zone, at most <b>timeout</b>/<b>retry_delay</b> times and never longer than <b>timeout</b> seconds. Any other error, or the retry limit being reached, dies with the original error message.</p>
 
 <dl>
 
 <dt id="resource_group-Resource-group-name10"><b>resource_group</b> Resource group name</dt>
+<dd>
+
+</dd>
+<dt id="timeout-Time-in-seconds-per-zone-to-keep-retrying-deletions-refused-with-CannotDeleteResource.-Value-0-disables-retrying-exact-previous-behavior-.-Default:-120"><b>timeout</b> Time in seconds, per zone, to keep retrying deletions refused with <b>CannotDeleteResource</b>. Value 0 disables retrying (exact previous behavior). Default: 120</dt>
+<dd>
+
+</dd>
+<dt id="retry_delay-Time-in-seconds-between-attempts.-Must-be-greater-than-0.-Default:-10"><b>retry_delay</b> Time in seconds between attempts. Must be greater than 0. Default: 10</dt>
 <dd>
 
 </dd>
