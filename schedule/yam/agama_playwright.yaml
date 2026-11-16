@@ -1,0 +1,8 @@
+---
+name: agama_playwright
+description: >
+  Run the Playwright web UI tests on the Agama Live ISO.
+  No installation is done, the system is not rebooted.
+schedule:
+  - yam/agama/boot_agama
+  - yam/agama/playwright
